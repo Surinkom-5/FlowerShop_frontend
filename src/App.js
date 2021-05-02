@@ -1,10 +1,15 @@
 import React from "react";
 import "./App.css";
+import Header from "./components/Header";
+import Footer from "./components/Footer";
+import HomePage from "./components/Pages/HomePage";
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">🌻 Welcome to flower shop 🌼</header>
+      <Header />
+      <HomePage />
+      <Footer />
     </div>
   );
 }
