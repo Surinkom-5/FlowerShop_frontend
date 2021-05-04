@@ -30,9 +30,10 @@ export const SmallText = styled.p`
 `;
 
 export const BigGreenText = styled.p`
-  font-size: 30px;
-  font-weight: 700;
-  line-height: 100%;
+  font-size: 32px;
+  margin: 16px 0;
+  font-family: 'Montserrat', sans-serif;
+  font-weight:700;
   color: rgba(143, 181, 106, 1);
 `;
 

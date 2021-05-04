@@ -7,10 +7,9 @@ function Footer(props) {
 
 const Container = styled.div`
   width: 100%;
-  height: 50px;
   background-color: white;
-  justify-content: flex-end;
-  padding-top: 10px;
+  padding:32px 0;
+  text-align:center;
 `;
 
 export default Footer;
