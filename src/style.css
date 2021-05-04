@@ -1,0 +1,50 @@
+
+.search-input-container,.header-info-container{
+    position: relative;
+}
+.search-input{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    padding-left: 28px;
+}
+.search-input-icon{
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: grey;
+}
+.search-input:hover{
+    box-shadow: 0 0 5px rgba(143, 181, 106, 1);
+}
+
+.header-info{
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right:0;
+}
+.cart-icon,.user-icon{
+    margin-left:8px;
+}
+.cart-icon:before,.user-icon:before {
+    font-family: FontAwesome; 
+    display: inline-block;
+    padding-right: 6px;
+    vertical-align: middle;
+}
+.cart-icon::before{
+    content: "\f07a";
+    font-size: 32px;
+}
+.user-icon::before{
+    content: "\f007";
+    font-size: 32px;
+}
+.logo{
+    padding: 22px 0;
+    font-weight: bold;
+    font-size: 36px;
+    font-family: 'Roboto', sans-serif;
+}
