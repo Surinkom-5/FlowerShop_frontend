@@ -1,59 +1,49 @@
 import React from "react";
 import styled from "styled-components";
 import "bootstrap/dist/css/bootstrap.min.css";
+import productImage from "../utils/product.png";
 
 function ProductCardSmall(props) {
   return (
     <Container>
-      <img
-        width={250}
-        height={250}
-        src="https://www.thespruce.com/thmb/9wSFip9fQEtqRa0A05x6zOvW2FY=/2848x2848/smart/filters:no_upscale()/pictures-of-orange-flowers-4061768-hero-af9e809318964fbcae6e922aa3cc8182.JPG"
+      <Image
+        src={productImage}
       />
-      <Title>{props.title}</Title>
+      <Title>{props.title}</Title><br />
       <GreenText>{props.price} €/vnt</GreenText>
     </Container>
   );
 }
 
 const Container = styled.div`
-  width: 300px;
-  height: 365px;
-  padding-left: 25px;
-  padding-right: 25px;
-  padding-top: 26px;
-  padding-bottom: 19px;
-  background-color: white;
-  border-radius: 8px;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-end;
-  &:hover {
-    box-shadow: 0 0 2px rgba(145, 188, 106, 1);
-    transform: scale(1.05);
-    -webkit-transform: scale(1.05);
-    -ms-transform: scale(1.05);
-  }
-  &:active {
-    transform: translateY(1px);
-  }
+  background: #fff;
+  padding: 32px;
+  border-radius: 12px;
+  font-weight: 600;
+  margin-bottom: 24px;
+  // &:hover {
+  //   box-shadow: 0 0 2px rgba(145, 188, 106, 1);
+  //   transform: scale(1.05);
+  //   -webkit-transform: scale(1.05);
+  //   -ms-transform: scale(1.05);
+  // }
+  // &:active {
+  //   transform: translateY(1px);
+  // }
 `;
 
-const Title = styled.p`
-  font-size: 20px;
-  line-height: 100%;
-  color: black;
-  margin-bottom: 5px;
-  margin-top: 10px;
+const Title = styled.span`
+  font-family: 'Montserrat', sans-serif;
+  font-size: 26px;
+  font-weight: 600;
 `;
 
-const GreenText = styled.p`
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 100%;
-  margin-bottom: 10px;
-  color: rgba(143, 181, 106, 1);
+const GreenText = styled.span`
+  font-size: 18px;
+  color: #8FB56A;
+`;
+const Image = styled.img`
+  max-width: 100%;
 `;
 
 export default ProductCardSmall;

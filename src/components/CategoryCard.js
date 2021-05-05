@@ -12,27 +12,21 @@ function ProductCardSmall(props) {
 }
 
 const Container = styled.div`
-  width: 200px;
-  height: 125px;
-  padding-top: 19px;
-  padding-bottom: 16px;
-  padding-left: 62px;
-  padding-right: 63px;
-  background-color: white;
-  border-radius: 8px;
-  display: inline-flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: flex-end;
-  &:hover {
-    box-shadow: 0 0 2px rgba(145, 188, 106, 1);
-    transform: scale(1.05);
-    -webkit-transform: scale(1.05);
-    -ms-transform: scale(1.05);
-  }
-  &:active {
-    transform: translateY(1px);
-  }
+  background: #fff;
+  padding: 32px;
+  text-align: center;
+  border-radius: 12px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 600;
+  // &:hover {
+  //   box-shadow: 0 0 2px rgba(145, 188, 106, 1);
+  //   transform: scale(1.05);
+  //   -webkit-transform: scale(1.05);
+  //   -ms-transform: scale(1.05);
+  // }
+  // &:active {
+  //   transform: translateY(1px);
+  // }
 `;
 
 const Title = styled.p`
@@ -44,9 +38,7 @@ const Title = styled.p`
 `;
 
 const Image = styled.img`
-  width: 75px;
-  height: 65px;
-  margin-top: 20px;
+  max-width: 100%;
 `;
 
 export default ProductCardSmall;
