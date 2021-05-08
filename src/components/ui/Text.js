@@ -4,6 +4,9 @@ export const ProductCardTitle = styled.p`
   font-size: 36px;
   font-weight: 500;
   line-height: 100%;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  margin-bottom: 5px;
   color: rgba(143, 181, 106, 1);
 `;
 
@@ -18,22 +21,23 @@ export const Description = styled.p`
 
 export const ProductCardPrice = styled.p`
   font-size: 24px;
-  font-weight: 500;
   line-height: 100%;
+  font-weight: 600;
   color: black;
 `;
 
 export const SmallText = styled.p`
   font-size: 14px;
   line-height: 100%;
+  font-weight: 500;
   color: ${(props) => (props.dimmed ? "#AAAAAA" : "#000000")};
 `;
 
 export const BigGreenText = styled.p`
   font-size: 32px;
   margin: 16px 0;
-  font-family: 'Montserrat', sans-serif;
-  font-weight:700;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 700;
   color: rgba(143, 181, 106, 1);
 `;
 

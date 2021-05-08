@@ -1,60 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import { Row, Col } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-
-export const AmountButton = () => {
-  return (
-    <div
-      class="btn-group"
-      role="group"
-      aria-label="Basic example"
-      style={{
-        height: "30px",
-        textAlign: "center",
-      }}
-    >
-      <button
-        type="button"
-        style={{
-          textAlign: "center",
-          background: "#F8F8F8",
-          border: "hidden",
-          color: "black",
-          fontSize: "20px",
-          padding: "5px",
-          borderRadius: "8px 0px 0px 8px",
-        }}
-      >
-        –
-      </button>
-      <button
-        type="button"
-        class="btn btn"
-        style={{
-          color: "black",
-        }}
-        disabled
-      >
-        0
-      </button>
-      <button
-        type="button"
-        style={{
-          background: "#F8F8F8",
-          border: "hidden",
-          color: "black",
-          fontSize: "20px",
-          padding: "5px",
-          borderRadius: "0px 8px 8px 0px",
-          onHover: { color: "red" },
-        }}
-      >
-        +
-      </button>
-    </div>
-  );
-};
 
 export const GreenButton = styled.button`
   padding-top: 6px;
@@ -76,6 +21,37 @@ export const GreenButton = styled.button`
   &:hover {
     background-color: rgba(145, 188, 106, 1);
     box-shadow: 0 0 2px rgba(145, 188, 106, 1);
+    transform: scale(1.05);
+    -webkit-transform: scale(1.05);
+    -ms-transform: scale(1.05);
+  }
+  &:active {
+    transform: translateY(1px);
+  }
+`;
+
+export const CircleButton = styled.circle`
+  height: 25px;
+  width: 25px;
+  background-color: #aaaaaa;
+  display: inline-block;
+  text-align: center;
+  opacity: 80%;
+  border-radius: ${(props) => {
+    if (props.left) {
+      return "50% 0 0 50%";
+    } else if (props.right) {
+      return "0 50% 50% 0";
+    } else {
+      return "50%";
+    }
+  }};
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* IE10+/Edge */
+  user-select: none;
+  &:hover {
+    background-color: rgba(145, 188, 106, 1);
     transform: scale(1.05);
     -webkit-transform: scale(1.05);
     -ms-transform: scale(1.05);

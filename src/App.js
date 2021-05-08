@@ -1,16 +1,27 @@
 import React from "react";
-import "./App.css";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import RegisterPage from "./components/Pages/RegisterPage";
+import LoginPage from "./components/Pages/LoginPage";
 import HomePage from "./components/Pages/HomePage";
+import ProductPage from "./components/Pages/ProductPage";
+import CategoryPage from "./components/Pages/CategoryPage";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div className="App">
+    <Router>
       <Header />
-      <HomePage />
+      <Switch>
+        <Route path="/" exact component={HomePage} />
+        <Route path="/register" component={RegisterPage} />
+        <Route path="/login" component={LoginPage} />
+        <Route path="/product" component={ProductPage} />
+        {/* TODO: make /product/:id */}
+        {/* <Route path="/category" component={CategoryPage} /> */}
+      </Switch>
       <Footer />
-    </div>
+    </Router>
   );
 }
 

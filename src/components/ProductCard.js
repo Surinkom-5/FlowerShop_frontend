@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import ProductCarousel from "./ProductCarousel";
 import {
@@ -7,7 +7,7 @@ import {
   ProductCardPrice,
   Description,
 } from "./ui/Text";
-import { GreenButton, AmountButton } from "./ui/Buttons";
+import { GreenButton, CircleButton } from "./ui/Buttons";
 import "./ui/styles.css";
 import { Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -15,11 +15,29 @@ import "bootstrap/dist/css/bootstrap.min.css";
 function ProductCard(props) {
   const maxDescriptionLength = 400;
 
-  const getShortenedDescription = () => {
-    if (props.description) {
-      return props.description.substr(0, maxDescriptionLength) + "...";
+  const [amount, setAmount] = useState(0);
+  const [amountCanBeIncreased, setAmountCanBeIncreased] = useState(true);
+
+  const increaseAmount = () => {
+    if (amountCanBeIncreased) {
+      setAmount(amount + 1);
+      if (amount + 1 == props.amount) {
+        setAmountCanBeIncreased(false);
+      }
     }
-    return "No description provided for this product.";
+  };
+
+  const decreaseAmount = () => {
+    if (amount !== 0) {
+      setAmount(amount - 1);
+      if (!amountCanBeIncreased) {
+        setAmountCanBeIncreased(true);
+      }
+    }
+  };
+
+  const getShortenedDescription = () => {
+    return props.description.substr(0, maxDescriptionLength) + "...";
   };
 
   return (
@@ -44,7 +62,13 @@ function ProductCard(props) {
           <Description>{getShortenedDescription()}</Description>
           <Row>
             <Col>
-              <AmountButton></AmountButton>
+              <CircleButton left onClick={decreaseAmount}>
+                −
+              </CircleButton>
+              <Text>{amount}</Text>
+              <CircleButton right onClick={increaseAmount}>
+                +
+              </CircleButton>
             </Col>
             <Col>
               <GreenButton>Į krepšelį</GreenButton>
@@ -55,6 +79,21 @@ function ProductCard(props) {
     </Container>
   );
 }
+
+const Text = styled.p`
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
+`;
+
+ProductCard.defaultProps = {
+  title: "Prekė",
+  code: NaN,
+  amount: NaN,
+  price: NaN,
+  description: "No description provided...",
+  images: null,
+};
 
 const StyledSmallText = styled(SmallText)`
   display: inline-block;
