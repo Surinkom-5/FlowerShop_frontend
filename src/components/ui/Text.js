@@ -68,3 +68,8 @@ export const ErrorPageText = styled.p`
   color: rgba(122.19, 122.19, 122.19, 1);
   opacity: 80%;
 `;
+
+export const SimpleText = styled.p`
+  margin-bottom: 0px;
+  font-weight: 400;
+`;
