@@ -6,57 +6,44 @@ import ProductCarousel from "../ProductCarousel";
 import ProductCardSmall from "../ProductCardSmall";
 import CategoryCard from "../CategoryCard";
 import "../../style.css";
-import productImage from "../../utils/product.png";
+import productImage from "../../utils/images/product.png";
 
-
-import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 function HomePage() {
   return (
     <Container>
-      <ProductCarousel height={400} className="carousel"/>
-      <BigGreenText>Categories</BigGreenText>
+      <ProductCarousel height={400} className="carousel" />
+      <BigGreenText>Kategorijos</BigGreenText>
       <Row>
-      <Col xs={2}><CategoryCard
-          category="Kategorija"
-          image={productImage}
-        />
+        <Col xs={2}>
+          <CategoryCard />
         </Col>
-        <Col xs={2}><CategoryCard
-          category="Kategorija"
-          image={productImage}
-        />
+        <Col xs={2}>
+          <CategoryCard />
         </Col>
-        <Col xs={2}><CategoryCard
-          category="Kategorija"
-          image={productImage}
-        />
+        <Col xs={2}>
+          <CategoryCard />
         </Col>
-        <Col xs={2}><CategoryCard
-          category="Kategorija"
-          image={productImage}
-        />
+        <Col xs={2}>
+          <CategoryCard />
         </Col>
-        <Col xs={2}><CategoryCard
-          category="Kategorija"
-          image={productImage}
-        />
+        <Col xs={2}>
+          <CategoryCard />
         </Col>
-        <Col xs={2}><CategoryCard
-          category="Kategorija"
-          image={productImage}
-        />
+        <Col xs={2}>
+          <CategoryCard />
         </Col>
       </Row>
-      <BigGreenText>New Flowers</BigGreenText>
+      <BigGreenText>Naujos gėlės</BigGreenText>
       <Row>
         <Col xs={3}>
           <ProductCardSmall title="Product 1" price="23" />
         </Col>
         <Col xs={3}>
-          <ProductCardSmall title="Product 1" price="23" />
+          <ProductCardSmall title="Product 1" />
         </Col>
         <Col xs={3}>
           <ProductCardSmall title="Product 1" price="23" />
