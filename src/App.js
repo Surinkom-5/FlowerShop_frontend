@@ -23,7 +23,6 @@ function App() {
         {/* TODO: make /product/:id (same with categry, cart ...) */}
         <Route path="/product" component={ProductPage} />
         <Route path="/cart" component={CartPage} />
-        <Route path="/cart" component={CartPage} />
         <Route path="/adress" component={ChangeAdressPage} />
         {/* Needs to be authenticated route */}
         <Route path="/user" component={UserInfoPage} />
