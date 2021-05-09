@@ -7,6 +7,7 @@ import HomePage from "./components/Pages/HomePage";
 import ProductPage from "./components/Pages/ProductPage";
 import CategoryPage from "./components/Pages/CategoryPage";
 import CartPage from "./components/Pages/CartPage";
+import PageNotFound from "./components/Pages/ErrorPages/PageNotFound";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/product" component={ProductPage} />
         <Route path="/cart" component={CartPage} />
         {/* <Route path="/category" component={CategoryPage} /> */}
+        <Route component={PageNotFound} />
       </Switch>
       <Footer />
     </Router>
