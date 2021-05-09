@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { BigGreenText, SmallGreenText } from "../ui/Text";
+import { BigGreenText, SmallGreenLink } from "../ui/Text";
 import { GreenButton } from "../ui/Buttons";
 import RegularInput from "../ui/Input";
 
@@ -16,9 +16,9 @@ function LoginPage(props) {
         <VerticalSpacer />
         <RegularInput type="password" placeholder="Slaptažodis" />
         <SmallVerticalSpacer />
-        <SmallGreenText onClick={navigateToRegister}>
+        <SmallGreenLink onClick={navigateToRegister}>
           Sukurti paskyrą
-        </SmallGreenText>
+        </SmallGreenLink>
         <VerticalSpacer />
         <StyledGreenButton>Prisijungti</StyledGreenButton>
       </InputContainer>

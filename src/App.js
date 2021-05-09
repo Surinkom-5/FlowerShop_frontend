@@ -6,6 +6,7 @@ import LoginPage from "./components/Pages/LoginPage";
 import HomePage from "./components/Pages/HomePage";
 import ProductPage from "./components/Pages/ProductPage";
 import CategoryPage from "./components/Pages/CategoryPage";
+import CartPage from "./components/Pages/CartPage";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 function App() {
@@ -16,8 +17,9 @@ function App() {
         <Route path="/" exact component={HomePage} />
         <Route path="/register" component={RegisterPage} />
         <Route path="/login" component={LoginPage} />
+        {/* TODO: make /product/:id (same with categry and cart) */}
         <Route path="/product" component={ProductPage} />
-        {/* TODO: make /product/:id */}
+        <Route path="/cart" component={CartPage} />
         {/* <Route path="/category" component={CategoryPage} /> */}
       </Switch>
       <Footer />

@@ -60,3 +60,11 @@ export const CircleButton = styled.circle`
     transform: translateY(1px);
   }
 `;
+
+export const Checkbox = styled.input.attrs({ type: "checkbox" })`
+  width: 393px;
+  font-size: 12px;
+  line-height: 100%;
+  display: inline;
+  color: rgba(155.13, 155.13, 155.13, 1);
+`;

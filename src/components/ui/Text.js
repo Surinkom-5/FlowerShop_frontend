@@ -42,7 +42,7 @@ export const BigGreenText = styled.p`
 `;
 
 // TODO: change to link
-export const SmallGreenText = styled.p`
+export const SmallGreenLink = styled.p`
   font-size: 12px;
   line-height: 100%;
   color: rgba(143, 181, 106, 1);
@@ -50,4 +50,11 @@ export const SmallGreenText = styled.p`
   &:hover {
     color: green;
   }
+`;
+
+export const SmallGreenText = styled.p`
+  font-size: 12px;
+  line-height: 100%;
+  color: rgba(143, 181, 106, 1);
+  margin: auto;
 `;

@@ -11,7 +11,7 @@ function RegularInput(props) {
 }
 
 const Container = styled.div`
-  width: 327px;
+  width: 100%;
   height: 40px;
   padding-top: 16px;
   padding-bottom: 14px;
@@ -29,7 +29,7 @@ const Container = styled.div`
 `;
 
 const Input = styled.input`
-  width: 287.21px;
+  width: 80%;
   font-size: 12px;
   line-height: 100%;
   color: rgba(155.13, 155.13, 155.13, 1);

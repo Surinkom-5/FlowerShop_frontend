@@ -80,12 +80,6 @@ function ProductCard(props) {
   );
 }
 
-const Text = styled.p`
-  display: inline-block;
-  padding-left: 10px;
-  padding-right: 10px;
-`;
-
 ProductCard.defaultProps = {
   title: "Prekė",
   code: NaN,
@@ -94,6 +88,12 @@ ProductCard.defaultProps = {
   description: "No description provided...",
   images: null,
 };
+
+const Text = styled.p`
+  display: inline-block;
+  padding-left: 10px;
+  padding-right: 10px;
+`;
 
 const StyledSmallText = styled(SmallText)`
   display: inline-block;
