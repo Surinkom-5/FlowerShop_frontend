@@ -58,3 +58,13 @@ export const SmallGreenText = styled.p`
   color: rgba(143, 181, 106, 1);
   margin: auto;
 `;
+
+export const ErrorPageText = styled.p`
+  font-size: 36px;
+  line-height: 100%;
+  font-family: "Montserrat", sans-serif;
+  font-weight: 600;
+  margin-bottom: 5px;
+  color: rgba(122.19, 122.19, 122.19, 1);
+  opacity: 80%;
+`;
