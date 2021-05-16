@@ -6,20 +6,20 @@ import { SimpleText } from "./ui/Text";
 
 function OrderListItem(props) {
   return (
-    <StyledRow>
+    <Row className="orders-item">
       <Col sm={3}>
-        <SimpleText>{props.order}</SimpleText>
+        <span>{props.order}</span>
       </Col>
       <Col sm={3}>
-        <SimpleText>{props.date}</SimpleText>
+        <span>{props.date}</span>
       </Col>
       <Col sm={3}>
-        <SimpleText>{props.amount}</SimpleText>
+        <span>{props.amount}</span>
       </Col>
       <Col sm={3}>
-        <SimpleText>{props.price} €</SimpleText>
+        <span>{props.price} €</span>
       </Col>
-    </StyledRow>
+    </Row>
   );
 }
 
@@ -30,13 +30,5 @@ OrderListItem.defaultProps = {
   price: "0",
 };
 
-const StyledRow = styled(Row)`
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 5%;
-  &:hover {
-    box-shadow: 0 0 2px rgba(145, 188, 106, 1);
-  }
-`;
 
 export default OrderListItem;

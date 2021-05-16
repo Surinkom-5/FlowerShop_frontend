@@ -7,10 +7,18 @@ import {
   ProductCardPrice,
   Description,
 } from "./ui/Text";
+
+
 import { GreenButton, CircleButton } from "./ui/Buttons";
 import "./ui/styles.css";
 import { Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import {TextInput,SubmitButton,QuantityInput} from "./ui/Form";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
+import InputGroup from "react-bootstrap/InputGroup";
+import productImage from "../utils/images/product.png";
+
 
 function ProductCard(props) {
   const maxDescriptionLength = 400;
@@ -41,42 +49,44 @@ function ProductCard(props) {
   };
 
   return (
-    <Container>
+    <div className="product-card-container">
       <Row>
         <Col sm={6}>
-          <ProductCarousel images={props.images} height={300} width={300} />
+          <img src={productImage} className="img-fluid"/>
         </Col>
         <Col sm={6}>
-          <ProductCardTitle>{props.title}</ProductCardTitle>
+          <h1 className="product-card-title">{props.title}</h1>
           <Row>
             <Col>
-              <StyledSmallText>Prekės kodas: </StyledSmallText>
-              <StyledSmallText dimmed>{props.code}</StyledSmallText>
+              <span className="product-small-text">Prekės kodas: </span>
+              <span className="product-small-text dimmed">{props.code}</span>
             </Col>
             <Col>
-              <StyledSmallText>Kiekis: </StyledSmallText>
-              <StyledSmallText dimmed>{props.amount} vnt</StyledSmallText>
+              <span className="product-small-text">Kiekis: </span>
+              <span className="product-small-text dimmed">{props.amount} vnt</span>
             </Col>
           </Row>
-          <ProductCardPrice>{props.price} €/vnt</ProductCardPrice>
-          <Description>{getShortenedDescription()}</Description>
+          <h2 className="product-price">{props.price} €/vnt</h2>
+          <p>{getShortenedDescription()}</p>
           <Row>
             <Col>
-              <CircleButton left onClick={decreaseAmount}>
-                −
-              </CircleButton>
-              <Text>{amount}</Text>
-              <CircleButton right onClick={increaseAmount}>
-                +
-              </CircleButton>
+              <InputGroup className="mb-3">
+                <InputGroup.Prepend>
+                  <button type="submit" className="btn quantity-button" onClick={decreaseAmount}>-</button>
+                </InputGroup.Prepend>
+                <Form.Control className="quantity-input" plaintext readOnly defaultValue="1" name="quantity" value={amount}/>
+                <InputGroup.Append>
+                  <button type="submit" className="btn quantity-button"  onClick={increaseAmount}>+</button>
+                </InputGroup.Append>
+              </InputGroup>
             </Col>
             <Col>
-              <GreenButton>Į krepšelį</GreenButton>
+              <SubmitButton>Į krepšelį</SubmitButton>
             </Col>
           </Row>
         </Col>
       </Row>
-    </Container>
+    </div>
   );
 }
 
@@ -88,23 +98,5 @@ ProductCard.defaultProps = {
   description: "No description provided...",
   images: null,
 };
-
-const Text = styled.p`
-  display: inline-block;
-  padding-left: 10px;
-  padding-right: 10px;
-`;
-
-const StyledSmallText = styled(SmallText)`
-  display: inline-block;
-  padding-right: 10px;
-`;
-
-const Container = styled.div`
-  padding: 50px 40px 50px 40px;
-  background: #ffffff !important;
-  border-radius: 8px;
-  text-align: left;
-`;
 
 export default ProductCard;

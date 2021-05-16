@@ -17,13 +17,13 @@ function Header(props) {
     history.push(url);
   };
   return (
-    <HeaderContainer>
+    <div className="header-container">
       <Container>
         <Row>
           <Col xs={3}>
             <div className="logo" onClick={null /** navigate to home page */}>
-              <LogoText1>Gėlių</LogoText1>
-              <LogoText2>Parduotuvė</LogoText2>
+              <span>Gėlių</span>
+              <span className="logoText2">Parduotuvė</span>
             </div>
           </Col>
           <Col xs={5} className="search-input-container">
@@ -36,49 +36,19 @@ function Header(props) {
           </Col>
           <Col xs={4} className="header-info-container">
             <div className="header-info">
-              <UserIcon
+              <span
                 onClick={() => navigate("/login")}
                 className="user-icon"
               >
                 Prisijungti
-              </UserIcon>
-              <CartIcon className="cart-icon">Pirkinių krepšelis</CartIcon>
+              </span>
+              <span className="cart-icon">Pirkinių krepšelis</span>
             </div>
           </Col>
         </Row>
       </Container>
-    </HeaderContainer>
+    </div>
   );
 }
-
-const HeaderContainer = styled.div`
-  background: #fff;
-`;
-
-const Logo = styled.div`
-  padding: 22px 0;
-  font-weight: bold;
-  font-size: 36px;
-  font-family: "Roboto", sans-serif;
-`;
-
-const UserIcon = styled.span`
-  &:hover {
-    transform: scale(1.05);
-    -webkit-transform: scale(1.05);
-    -ms-transform: scale(1.05);
-  }
-  &:active {
-    transform: translateY(1px);
-  }
-`;
-
-const CartIcon = styled.span``;
-
-const LogoText1 = styled.span``;
-
-const LogoText2 = styled.span`
-  color: #8fb56a;
-`;
 
 export default Header;
