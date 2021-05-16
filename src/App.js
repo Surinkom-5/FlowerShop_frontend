@@ -7,7 +7,8 @@ import HomePage from "./components/Pages/HomePage";
 import ProductPage from "./components/Pages/ProductPage";
 import CategoryPage from "./components/Pages/CategoryPage";
 import CartPage from "./components/Pages/CartPage";
-import ChangeAdressPage from "./components/Pages/ChangeAdressPage";
+import ChangeAddressPage from "./components/Pages/ChangeAddressPage";
+import CreateAddressPage from "./components/Pages/CreateAddressPage";
 import UserInfoPage from "./components/Pages/UserInfoPage";
 import PageNotFound from "./components/Pages/ErrorPages/PageNotFound";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
@@ -23,7 +24,8 @@ function App() {
         {/* TODO: make /product/:id (same with categry, cart ...) */}
         <Route path="/product" component={ProductPage} />
         <Route path="/cart" component={CartPage} />
-        <Route path="/adress" component={ChangeAdressPage} />
+        <Route path="/address" component={ChangeAddressPage} />
+        <Route path="/create-address" component={CreateAddressPage} />
         {/* Needs to be authenticated route */}
         <Route path="/user" component={UserInfoPage} />
         {/* <Route path="/category" component={CategoryPage} /> */}

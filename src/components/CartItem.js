@@ -6,32 +6,34 @@ import { Row, Col } from "react-bootstrap";
 import { SmallText } from "./ui/Text";
 import RemoveItemIcon from "../utils/icons/RemoveItemIcon.png";
 
+import { faMinusCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 function CartItem(props) {
   return (
-    <StyledRow>
-      <StyledCol sm={6}>
+    <Row>
+      <Col xs={6}>
         <Row>
-          <StyledCol sm={3}>
-            <Image src={props.image} />
-          </StyledCol>
-          <StyledCol sm={8}>
-            <GreenText>{props.title}</GreenText>
-            <br />
-            <StyledSmallText>Prekės kodas:</StyledSmallText>
-            <StyledSmallText dimmed>{props.code}</StyledSmallText>
-          </StyledCol>
+        <Col xs={3}>
+          <img className="img-fluid cart-item-image" src={props.image}></img>
+        </Col>
+        <Col xs={6} className="cart-item-row-title">
+          <span className="cart-item-title">
+          {props.title}
+          </span>
+        </Col>
         </Row>
-      </StyledCol>
-      <StyledCol sm={3}>
-        <SimpleText>{props.amount} vnt</SimpleText>
-      </StyledCol>
-      <StyledCol sm={2}>
-        <GreenText>{props.price} €</GreenText>
-      </StyledCol>
-      <StyledCol sm={1}>
-        <RemoveIcon src={RemoveItemIcon} />
-      </StyledCol>
-    </StyledRow>
+            </Col>
+            <Col xs={2} className="cart-item-row">
+            <span className="cart-item-row">{props.amount} vnt</span>
+            </Col>
+            <Col xs={2} className="cart-item-row">
+            <b className="text-main">{props.price} €</b>
+            </Col>
+            <Col xs={2}>
+              <FontAwesomeIcon icon={faMinusCircle} className="search-input-icon" />
+            </Col>
+    </Row>
   );
 }
 
@@ -42,55 +44,5 @@ CartItem.defaultProps = {
   code: "0000",
   amount: "0",
 };
-
-const GreenText = styled.span`
-  font-size: 18px;
-  color: #8fb56a;
-  font-weight: 600;
-`;
-
-const Image = styled.img`
-  width: 75px;
-  height: 75px;
-`;
-
-const StyledSmallText = styled(SmallText)`
-  display: inline-block;
-  padding-right: 10px;
-  margin-bottom: 0px;
-`;
-
-const StyledRow = styled(Row)`
-  padding-top: 5px;
-  padding-bottom: 5px;
-  border-radius: 5%;
-  &:hover {
-    box-shadow: 0 0 2px rgba(145, 188, 106, 1);
-  }
-  &:active {
-    transform: translateY(1px);
-  }
-`;
-
-const StyledCol = styled(Col)`
-  margin: auto;
-`;
-
-const SimpleText = styled.p`
-  margin-bottom: 0px;
-`;
-
-const RemoveIcon = styled.img`
-  width: 20px;
-  height: 20px;
-  &:hover {
-    transform: scale(1.2);
-    -webkit-transform: scale(1.2);
-    -ms-transform: scale(1.2);
-  }
-  &:active {
-    transform: translateY(1px);
-  }
-`;
 
 export default CartItem;
