@@ -1,51 +1,30 @@
 import React from "react";
-import styled from "styled-components";
-import { BigGreenText } from "../ui/Text";
-import { GreenButton } from "../ui/Buttons";
-import RegularInput from "../ui/Input";
+import { Header1Center } from "../ui/Text";
+import {TextInput,SubmitButton} from "../ui/Form";
+
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 function RegisterPage() {
   return (
-    <PageContainer>
-      <BigGreenText>Sukurti paskyrą</BigGreenText>
-      <InputContainer>
-        <RegularInput type="text" placeholder="El. pašto adresas" />
-        <VerticalSpacer />
-        <RegularInput type="password" placeholder="Slaptažodis" />
-        <VerticalSpacer />
-        <RegularInput type="password" placeholder="Pakartoti slaptažodį" />
-        <VerticalSpacer />
-        <StyledGreenButton>Sukurti paskyrą</StyledGreenButton>
-      </InputContainer>
-    </PageContainer>
+    <Container>
+      <Header1Center className="text-center">Sukurti paskyrą</Header1Center>
+      <Row className="justify-content-center">
+        <Col xs={4}>
+          <form className="register-container">
+            <TextInput type="text" placeholder="El. pašto adresas" />
+            <br/>
+            <TextInput type="password" placeholder="Slaptažodis" />
+            <br/>
+            <TextInput type="password" placeholder="Pakartoti slaptažodį" />
+            <br/>
+            <SubmitButton>Sukurti paskyrą</SubmitButton>
+          </form>
+        </Col>
+      </Row>
+    </Container>
   );
 }
-
-const PageContainer = styled.div`
-  margin: 0 30%;
-  padding-top: 70px;
-  padding-bottom: 90px;
-  height: 50vw;
-  text-align: left;
-`;
-
-const InputContainer = styled.div`
-  width: 400px;
-  height: 321px;
-  background-color: white;
-  border-radius: 8px;
-  padding: 35px;
-  padding-top: 50px;
-  text-align: left;
-  align-items: center;
-`;
-
-const VerticalSpacer = styled.div`
-  height: 1.5rem;
-`;
-
-const StyledGreenButton = styled(GreenButton)`
-  margin-left: auto;
-`;
 
 export default RegisterPage;

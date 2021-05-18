@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
-import { BigGreenText } from "../ui/Text";
+import { Header1 } from "../ui/Text";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ProductCarousel from "../ProductCarousel";
 import ProductCardSmall from "../ProductCardSmall";
@@ -26,7 +26,7 @@ function HomePage() {
   return (
     <Container>
       <ProductCarousel height={400} className="carousel" />
-      <BigGreenText>Kategorijos</BigGreenText>
+      <Header1 className="text-center">Kategorijos</Header1>
       <Row>
         {/* Now showing only first six categories, later maybe do a slider? */}
         {categories.slice(0, 6).map((c) => (
@@ -35,7 +35,7 @@ function HomePage() {
           </Col>
         ))}
       </Row>
-      <BigGreenText>Naujos gėlės</BigGreenText>
+      <Header1>Naujos gėlės</Header1>
       <Row>
         {products.slice(0, 4).map((p) => (
           <Col xs={3}>
@@ -49,29 +49,5 @@ function HomePage() {
     </Container>
   );
 }
-
-const StyledContainer = styled(Container)`
-  min-height: 50vw;
-  padding-top: 50px;
-  margin: 0 auto;
-  max-width: 90%;
-`;
-
-const CardContainer = styled.div`
-  display: flex;
-  align-content: center;
-`;
-
-const VerticalSpacer = styled.div`
-  height: 1rem;
-`;
-
-const HorizontalSpacer = styled.div`
-  width: 20px;
-`;
-
-const BigHorizontalSpacer = styled.div`
-  width: 80px;
-`;
 
 export default HomePage;
