@@ -1,6 +1,5 @@
 import { setProducts, setCategories } from "../actions/common";
 import * as axios from "axios";
-import { ProductCardPrice } from "../components/ui/Text";
 
 const axiosInstance = axios.create({
   baseURL: "https://localhost:57678",
@@ -138,7 +137,7 @@ export const GetCategories = async (dispatch) => {
 export const GetProduct = async (id) => {
   try {
     // API call
-    // const { product } = await axiosInstance.get(`/products`);
+    // const { product } = await axiosInstance.get(`/products.id`);
     // return product;
   } catch {
     console.log("Error while getting categories!");
