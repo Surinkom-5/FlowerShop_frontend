@@ -40,8 +40,10 @@ function HomePage() {
         {products.slice(0, 4).map((p) => (
           <Col xs={3}>
             <ProductCardSmall
+              id={p.id}
               title={p.name}
-              price={p.price} /*image={p.image}*/
+              price={p.price}
+              image={p.image}
             />
           </Col>
         ))}

@@ -2,7 +2,7 @@ import { setProducts, setCategories } from "../actions/common";
 import * as axios from "axios";
 
 const axiosInstance = axios.create({
-  baseURL: "https://localhost:57678",
+  baseURL: "http://localhost:57678/api",
 });
 
 // Egzamples of how api calls may look like:
@@ -17,61 +17,8 @@ const axiosInstance = axios.create({
 
 export const GetProducts = async (dispatch) => {
   try {
-    //   API call
-    // const { data } = await axiosInstance.get(`/products`);
-
-    const response = [
-      {
-        id_product: "111",
-        code: "0202",
-        name: "Gele 1",
-        price: "14",
-        quantity: "30",
-        image: null,
-      },
-      {
-        id_product: "111",
-        code: "0202",
-        name: "Gele 2",
-        price: "1",
-        quantity: "3",
-        image: null,
-      },
-      {
-        id_product: "111",
-        code: "0202",
-        name: "Gele 3",
-        price: "100",
-        quantity: "2",
-        image: null,
-      },
-      {
-        id_product: "111",
-        code: "0202",
-        name: "Gele 1",
-        price: "14",
-        quantity: "30",
-        image: null,
-      },
-      {
-        id_product: "111",
-        code: "0202",
-        name: "Gele 2",
-        price: "1",
-        quantity: "3",
-        image: null,
-      },
-      {
-        id_product: "111",
-        code: "0202",
-        name: "Gele 3",
-        price: "100",
-        quantity: "2",
-        image: null,
-      },
-    ];
-
-    await dispatch(setProducts(response));
+    const { data } = await axiosInstance.get(`/Products`);
+    dispatch(setProducts(data));
   } catch {
     console.log("Error while getting products!");
   }
@@ -79,56 +26,8 @@ export const GetProducts = async (dispatch) => {
 
 export const GetCategories = async (dispatch) => {
   try {
-    //   API call
-    const response = [
-      {
-        id: "111",
-        name: "Puokstes",
-        image: null,
-      },
-      {
-        id: "111",
-        name: "Geles",
-        image: null,
-      },
-      {
-        id: "111",
-        name: "Vazonai",
-        image: null,
-      },
-      {
-        id: "111",
-        name: "Puokstes",
-        image: null,
-      },
-      {
-        id: "111",
-        name: "Geles",
-        image: null,
-      },
-      {
-        id: "111",
-        name: "Vazonai",
-        image: null,
-      },
-      {
-        id: "111",
-        name: "Puokstes",
-        image: null,
-      },
-      {
-        id: "111",
-        name: "Geles",
-        image: null,
-      },
-      {
-        id: "111",
-        name: "Vazonai",
-        image: null,
-      },
-    ];
-
-    await dispatch(setCategories(response));
+    const { data } = await axiosInstance.get(`/Categories`);
+    await dispatch(setCategories(data));
   } catch {
     console.log("Error while getting categories!");
   }
@@ -136,10 +35,18 @@ export const GetCategories = async (dispatch) => {
 
 export const GetProduct = async (id) => {
   try {
-    // API call
-    // const { product } = await axiosInstance.get(`/products.id`);
-    // return product;
+    const { data } = await axiosInstance.get(`/Products/${id}`);
+    return data;
   } catch {
-    console.log("Error while getting categories!");
+    console.log("Error while getting product!");
+  }
+};
+
+export const GetProductsByType = async (type) => {
+  try {
+    const { data } = await axiosInstance.get(`/Products?ProductType=${type}`);
+    return data;
+  } catch {
+    console.log("Error while getting products by type!");
   }
 };
