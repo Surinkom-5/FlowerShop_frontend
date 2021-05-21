@@ -22,7 +22,7 @@ function App() {
         <Route path="/register" component={RegisterPage} />
         <Route path="/login" component={LoginPage} />
         {/* TODO: make /product/:id (same with categry, cart ...) */}
-        <Route path="/product" component={ProductPage} />
+        <Route exact path="/product/:id" component={ProductPage} />
         <Route path="/cart" component={CartPage} />
         <Route path="/address" component={ChangeAddressPage} />
         <Route path="/create-address" component={CreateAddressPage} />
