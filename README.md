@@ -3,6 +3,8 @@
 2. `npm install`
 3. `npm start`
 
+For application to work properly PSKApi backend should be running locally on your mashine. If you want to checkout design without functionality, you can checkout earlier commits.
+
 ## Available Scripts
 
 In the project directory, you can run:
