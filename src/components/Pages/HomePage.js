@@ -16,12 +16,6 @@ import { GetCategories, GetProducts } from "../../services";
 function HomePage() {
   const products = useSelector((state) => state.appReducer.products);
   const categories = useSelector((state) => state.appReducer.categories);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    GetProducts(dispatch);
-    GetCategories(dispatch);
-  }, []);
 
   return (
     <Container>
@@ -31,7 +25,7 @@ function HomePage() {
         {/* Now showing only first six categories, later maybe do a slider? */}
         {categories.slice(0, 6).map((c) => (
           <Col xs={2}>
-            <CategoryCard category={c.name} /*image={c.image}*/ />
+            <CategoryCard id={c.id} category={c.name} /*image={c.image}*/ />
           </Col>
         ))}
       </Row>

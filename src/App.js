@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
 import RegisterPage from "./components/Pages/RegisterPage";
@@ -12,8 +12,17 @@ import CreateAddressPage from "./components/Pages/CreateAddressPage";
 import UserInfoPage from "./components/Pages/UserInfoPage";
 import PageNotFound from "./components/Pages/ErrorPages/PageNotFound";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { GetCategories, GetProducts } from "./services";
+import { useDispatch } from "react-redux";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    GetProducts(dispatch);
+    GetCategories(dispatch);
+  }, []);
+
   return (
     <Router>
       <Header />
@@ -28,7 +37,7 @@ function App() {
         <Route path="/create-address" component={CreateAddressPage} />
         {/* Needs to be authenticated route */}
         <Route path="/user" component={UserInfoPage} />
-        {/* <Route path="/category" component={CategoryPage} /> */}
+        <Route path="/category/:id" component={CategoryPage} />
         <Route component={PageNotFound} />
       </Switch>
       <Footer />
