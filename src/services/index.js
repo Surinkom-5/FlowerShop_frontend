@@ -1,9 +1,13 @@
-import { setProducts, setCategories } from "../actions/common";
+import { setProducts, setCategories, setCart, setUser } from "../actions/common";
 import * as axios from "axios";
-
+import Cookies from 'universal-cookie';
+import { useDispatch, useSelector } from "react-redux";
 const axiosInstance = axios.create({
   baseURL: "http://localhost:57678/api",
 });
+
+const cookies = new Cookies();
+
 
 // Egzamples of how api calls may look like:
 // GET
@@ -52,28 +56,59 @@ export const GetProductsByType = async (type) => {
 };
 
 
-export const GetUser = async () => {
+export const GetUser = async (dispatch) => {
 
-  const options = {
-    headers: {'Authorization': 'Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJJZCI6Ijg4MTA1NWEwLTlmN2YtNDg1OC04ZDcwLTUzODE1YzlhNTZhYiIsIlVzZXJJZCI6IjMiLCJlbWFpbCI6ImFuZHJpdXNAZXhhbXBsZS5jb20iLCJuYmYiOjE2MjE3NjkxNzAsImV4cCI6MTYyMTc5MDc3MCwiaWF0IjoxNjIxNzY5MTcwfQ.DvLfBsJLMvVMAnJhH6ASbIwxX4c3Xkrsp0GIbxN1jueaE3XD2rJOyquLPKC0Bfd7bs0PyK1XPx-dQGAN8I_xLw'}
-  };
+  if(cookies.get('userToken')){
+    const options = {
+      headers: {'Authorization': 'Bearer '+cookies.get('userToken')}
+    };
   axiosInstance.get(`/User/CurrentUser`,options)
   .then((response) => {
-    return response.data;
+    dispatch(setUser(response.data));
   }, (error) => {
-    return null;
+    dispatch(setUser(null));
   });
+}else{
+  dispatch(setUser(null));
+}
+
 };
 
-export const GetCart = async () => {
+export const GetCart = async (dispatch) => {
 
-  const options = {
-    headers: {'cartCookie': 'b45421e5-716b-4e61-92d5-f0e2df1c634a'}
-  };
-  axiosInstance.get(`/ShoppingCart`,options)
-  .then((response) => {
-    return response.data;
-  }, (error) => {
-    return null;
-  });
+  if(cookies.get('cartId')){
+    const options = {
+      headers: {'cartCookie': cookies.get('cartId')}
+    };
+    axiosInstance.get(`/ShoppingCart`,options)
+    .then((response) => {
+      dispatch(setCart(response.data));
+    }, (error) => {
+      dispatch(setCart(null));
+    });
+  }else{
+    axiosInstance.get(`/ShoppingCart`)
+    .then((response) => {
+      cookies.set('cartId', response.data.cartId, { path: '/' });
+      dispatch(setCart(response.data));
+    }, (error) => {
+      dispatch(setCart(null));
+    });
+  }
+};
+
+export const GetAddresses = async () => {
+
+  if(cookies.get('userToken')){
+    try {
+      const options = {
+        headers: {'Authorization': 'Bearer '+cookies.get('userToken')}
+      };
+      const { data } = await axiosInstance.get(`/Address`,options);
+      return data;
+    } catch {
+      console.log("Error while getting Addresses!");
+    }
+  }
+
 };

@@ -15,6 +15,8 @@ function Header() {
   const history = useHistory();
   const location = useLocation();
   const products = useSelector((state) => state.appReducer.products);
+  const user = useSelector((state) => state.appReducer.user);
+
   const [value, setValue] = useState(null);
 
   const navigate = (url) => {
@@ -96,7 +98,6 @@ function Header() {
       value: product.name.toLowerCase(),
     });
   });
-
   return (
     <div className="header-container">
       <Container>
@@ -125,9 +126,16 @@ function Header() {
           <Col xs={3} className="header-info-container">
             <div className="header-info">
               {/* TODO: make a conditional statement: if user logged in: button "Logoff" */}
+              {user == null ? (
               <span onClick={() => navigate("/login")} className="user-icon">
                 Prisijungti
               </span>
+              ) : (
+                <span onClick={() => navigate("/user")} className="user-icon">
+                Paskyra
+              </span>
+              )}
+
               <span className="cart-icon" onClick={() => navigate("/cart")}>
                 Pirkinių krepšelis
               </span>

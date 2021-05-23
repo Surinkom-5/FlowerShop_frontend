@@ -5,8 +5,11 @@ import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
 import  { Redirect } from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.min.css";
+import { Row, Col } from "react-bootstrap";
 
 import * as axios from "axios";
+import Cookies from 'universal-cookie';
+
 
 class TextInput extends React.Component {
     render() {
@@ -18,7 +21,7 @@ class TextInput extends React.Component {
 class SubmitButton extends React.Component {
   render() {
     return (
-      <button type="submit" className="btn submit-button">{this.props.children}</button>
+      <button type="submit" className="btn submit-button" onClick={this.props.onClick}>{this.props.children}</button>
     );
   };
 }
@@ -29,7 +32,8 @@ class LoginForm extends React.Component {
     this.state = {
       email: '',
       password: '',
-      message: ''
+      message: '',
+      redirect: null
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -53,11 +57,16 @@ class LoginForm extends React.Component {
       baseURL: "http://localhost:57678/api",
     });
     
+    const cookies = new Cookies();
 
     axiosInstance.post('/Identity/Login', this.state)
     .then((response) => {
       this.setState({
         message: ''
+      });
+      cookies.set('userToken', response.data.token, { path: '/' });
+      this.setState({
+        redirect: '/'
       });
     }, (error) => {
       if(Array.isArray(Object.values(error.response.data.errors)[0])){
@@ -79,6 +88,9 @@ class LoginForm extends React.Component {
   
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />
+    }
     return (
       
       <form className="login-container" onSubmit={this.handleSubmit}>
@@ -93,6 +105,8 @@ class LoginForm extends React.Component {
         <SubmitButton>Prisijungti</SubmitButton>
       </form>
     );
+  
+    
   }
 }
 
@@ -104,7 +118,8 @@ class RegisterForm extends React.Component {
       password: '',
       password_confirm: '',
       name: '',
-      message: ''
+      message: '',
+      redirect: null
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -131,7 +146,6 @@ class RegisterForm extends React.Component {
       baseURL: "http://localhost:57678/api",
     });
     
-    console.log(this.state);
     if(this.state.password != this.state.password_confirm){
       this.setState({
         message: 'Slaptažodžiai nesutampa'
@@ -144,6 +158,9 @@ class RegisterForm extends React.Component {
       .then((response) => {
         this.setState({
           message: ''
+        });
+        this.setState({
+          redirect: '/login'
         });
       }, (error) => {
         if(Array.isArray(Object.values(error.response.data.errors)[0])){
@@ -164,6 +181,9 @@ class RegisterForm extends React.Component {
   
 
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={this.state.redirect} />
+    }
     return (
       
       <form className="register-container" onSubmit={this.handleSubmit}>
@@ -183,4 +203,104 @@ class RegisterForm extends React.Component {
   }
 }
 
-export { TextInput, SubmitButton, LoginForm, RegisterForm };
+class CreateAddressForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      street: '',
+      city: '',
+      postalCode: '',
+      message: ''
+    };
+
+    this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+
+  }
+
+  handleInputChange(event) {
+    const target = event.target;
+    const value = target.value;
+    const name = target.name;
+
+    this.setState({
+      [name]: value
+    });
+  }
+
+  handleSubmit(event) {
+    const cookies = new Cookies();
+
+    const axiosInstance = axios.create({
+      baseURL: "http://localhost:57678/api",
+    });
+    
+      this.setState({
+        message: ''
+      });
+      if(cookies.get('userToken')){
+        const options = {
+          headers: {'Authorization': 'Bearer '+cookies.get('userToken')}
+        };
+        axiosInstance.post('/Address', this.state,options)
+        .then((response) => {
+          this.setState({
+            message: ''
+          });
+        }, (error) => {
+          if(Array.isArray(Object.values(error.response.data.errors)[0])){
+            var message = Object.values(error.response.data.errors)[0][0];
+          }else{
+            var message = Object.values(error.response.data.errors)[0];
+          };
+        this.setState({
+          message: message
+        });
+        
+        });
+      }
+
+
+    event.preventDefault();
+  }
+  
+
+  render() {
+    return (
+      
+      <form className="address-container" onSubmit={this.handleSubmit}>
+        {this.state.message && 
+        <Alert variant='danger'>
+          {this.state.message}
+        </Alert>}
+            <TextInput type="text" placeholder="Vardas" onChange={this.handleInputChange} />
+            <br/>
+            <TextInput type="text" placeholder="Pavardė" onChange={this.handleInputChange} />
+            <br/>
+            <TextInput type="text" placeholder="Adresas" onChange={this.handleInputChange} name="street"/>
+            <br/>
+            <Row>
+              <Col xs={6}>
+                <TextInput type="text" placeholder="Miestas" onChange={this.handleInputChange} name="city"/>
+              </Col>
+              <Col xs={6}>
+                <TextInput type="text" placeholder="Pašto kodas" onChange={this.handleInputChange} name="postalCode"/>
+              </Col>
+            </Row>
+            <br/>
+            <Row>
+              <Col xs={6}>
+                <TextInput type="text" placeholder="Telefono numeris" onChange={this.handleInputChange} />
+              </Col>
+              <Col xs={6}>
+                <TextInput type="text" placeholder="El.pašto adresas" onChange={this.handleInputChange} />
+              </Col>
+            </Row>
+            <br/>
+            <SubmitButton>Sukurti</SubmitButton>
+          </form>
+    );
+  }
+}
+
+export { TextInput, SubmitButton, LoginForm, RegisterForm, CreateAddressForm };
