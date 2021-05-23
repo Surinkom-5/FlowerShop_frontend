@@ -11,7 +11,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useDispatch, useSelector } from "react-redux";
-import { GetCategories, GetProducts } from "../../services";
+import { GetCategories, GetProducts, GetCart, GetUser } from "../../services";
 
 function HomePage() {
   const products = useSelector((state) => state.appReducer.products);
