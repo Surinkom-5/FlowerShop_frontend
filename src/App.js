@@ -12,7 +12,7 @@ import CreateAddressPage from "./components/Pages/CreateAddressPage";
 import UserInfoPage from "./components/Pages/UserInfoPage";
 import PageNotFound from "./components/Pages/ErrorPages/PageNotFound";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
-import { GetCategories, GetProducts } from "./services";
+import { GetCategories, GetProducts, GetUser, GetCart } from "./services";
 import { useDispatch } from "react-redux";
 
 function App() {
@@ -21,6 +21,8 @@ function App() {
   useEffect(() => {
     GetProducts(dispatch);
     GetCategories(dispatch);
+    GetUser(dispatch)
+    GetCart(dispatch)
   }, []);
 
   return (
@@ -30,7 +32,6 @@ function App() {
         <Route path="/" exact component={HomePage} />
         <Route path="/register" component={RegisterPage} />
         <Route path="/login" component={LoginPage} />
-        {/* TODO: make /product/:id (same with categry, cart ...) */}
         <Route exact path="/product/:id" component={ProductPage} />
         <Route path="/cart" component={CartPage} />
         <Route path="/address" component={ChangeAddressPage} />

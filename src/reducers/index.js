@@ -8,7 +8,7 @@ import * as actionTypes from "../actions/actionTypes";
 // };
 
 const defaultState = {
-  currentUser: null,
+  user: null,
   products: [],
   categories: [],
   cart: null,
@@ -28,12 +28,31 @@ function setProducts(state, action) {
   };
 }
 
+function setUser(state, action) {
+  return {
+    ...state,
+    user: action.user,
+  };
+}
+
+function setCart(state, action) {
+  return {
+    ...state,
+    cart: action.cart,
+  };
+}
+
+
 export default function AppReducer(state = defaultState, action) {
   switch (action.type) {
     case actionTypes.SET_CATEGORIES:
       return setCategories(state, action);
     case actionTypes.SET_PRODUCTS:
       return setProducts(state, action);
+    case actionTypes.SET_CART:
+      return setCart(state, action);
+    case actionTypes.SET_USER:
+      return setUser(state, action);
     default:
       return state;
   }

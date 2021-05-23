@@ -7,12 +7,12 @@ import { Row, Col, Form } from "react-bootstrap";
 import {TextInput,SubmitButton} from "../ui/Form";
 
 import { CartHeader, TableHead } from "../ui/Text";
-
+import { useSelector } from "react-redux";
 
 function CartPage(props) {
   const [rulesAgreementChecked, setRulesAgreementChecked] = useState(false);
   const [typeOfPayment, setTypeOfPayment] = useState(null);
-
+  const cart = useSelector((state) => state.appReducer.cart);
   return (
     <Container>
       <CartHeader num="1">Krepšelis</CartHeader>
@@ -30,8 +30,9 @@ function CartPage(props) {
             <Col xs={2}>
             </Col>
         </Row>
-        <CartItem />
-        <CartItem />
+        {cart ? (cart.cartItems.map((c) => (
+          <CartItem />
+        ))) : null}
       </div>
       <Row>
         <Col xs={6}>
@@ -71,7 +72,7 @@ function CartPage(props) {
               Pilna kaina
             </Col>
             <Col xs={6}>
-              22.68€
+              {cart.price /1.21}€
             </Col>
           </Row>
           <Row className="payment-info">
@@ -79,7 +80,7 @@ function CartPage(props) {
               PVM
             </Col>
             <Col xs={6}>
-              2.68€
+            {cart.price * 0.21}€
             </Col>
           </Row>
           <Row className="payment-info">
@@ -87,7 +88,7 @@ function CartPage(props) {
               Galutinė kaina
             </Col>
             <Col xs={6}>
-              22.68€
+            {cart.price}€
             </Col>
           </Row>
           <br/>
