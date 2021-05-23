@@ -46,6 +46,7 @@ function ProductPage() {
       <ProductCard
         title={product.name}
         code={product.id}
+        image={product.image}
         amount={product.quantity}
         price={product.price}
         description={product.description}
@@ -54,7 +55,12 @@ function ProductPage() {
       <Row>
         {similarProductsToShow.map((p) => (
           <Col xs={3}>
-            <ProductCardSmall id={p.id} title={p.name} price={p.price} />
+            <ProductCardSmall
+              id={p.id}
+              title={p.name}
+              price={p.price}
+              image={p.image}
+            />
           </Col>
         ))}
       </Row>

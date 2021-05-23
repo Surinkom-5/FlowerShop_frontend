@@ -57,7 +57,7 @@ function ProductCard(props) {
     <div className="product-card-container">
       <Row>
         <Col sm={6}>
-          <img src={productImage} className="img-fluid" />
+          <img src={props.image} className="img-fluid" />
         </Col>
         <Col sm={6}>
           <h1 className="product-card-title">{props.title}</h1>
@@ -122,7 +122,7 @@ ProductCard.defaultProps = {
   amount: NaN,
   price: NaN,
   description: "No description provided...",
-  images: null,
+  image: null,
 };
 
 export default ProductCard;
