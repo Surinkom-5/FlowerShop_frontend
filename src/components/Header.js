@@ -80,6 +80,14 @@ function Header() {
     );
   };
 
+  const NoOptionsMessage = (props) => {
+    return (
+      <components.NoOptionsMessage {...props}>
+        <span>Gėlių nerasta</span>
+      </components.NoOptionsMessage>
+    );
+  };
+
   const searchOptions = [];
   products.forEach((product) => {
     searchOptions.push({
@@ -103,10 +111,14 @@ function Header() {
             <Select
               value={value}
               options={searchOptions}
-              placeholder={"Search for flowers"}
+              placeholder={"Gėlių paieška..."}
               className="search-input"
               styles={SearchStyles}
-              components={{ DropdownIndicator, IndicatorSeparator: () => null }}
+              components={{
+                DropdownIndicator,
+                IndicatorSeparator: () => null,
+                NoOptionsMessage,
+              }}
               onChange={(e) => handleInputChange(e)}
             />
           </Col>
