@@ -58,11 +58,6 @@ function ChangeAddressPage() {
       <Row className="justify-content-center">
         <Col xs={6}>
           <div className="address-container">
-            <TextInput type="text" placeholder="Vardas" />
-            <br />
-            <TextInput type="text" placeholder="Pavardė" />
-            <br />
-
             <TextInput
               type="text"
               placeholder="Adresas"
@@ -98,14 +93,7 @@ function ChangeAddressPage() {
               </Col>
             </Row>
             <br />
-            <Row>
-              <Col xs={6}>
-                <TextInput type="text" placeholder="Telefono numeris" />
-              </Col>
-              <Col xs={6}>
-                <TextInput type="text" placeholder="El.pašto adresas" />
-              </Col>
-            </Row>
+
             {showMessage ? (
               <div>
                 <br />

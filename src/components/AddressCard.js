@@ -15,7 +15,7 @@ function AdressCard(props) {
   }
 
   return (
-    <Col xs={3}>
+    <Col xs={4}>
       <div className="address-card">
         <span>
           {props.name} {props.surname}

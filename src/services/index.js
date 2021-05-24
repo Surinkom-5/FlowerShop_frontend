@@ -132,3 +132,17 @@ export const UpdateAddress = async (id, newAdress) => {
     }
   }
 };
+
+export const AddToCart = async (data) => {
+  const cookie = cookies.get("cartId");
+  if (cookie) {
+    try {
+      const options = {
+        headers: { cartCookie: cookies.get("cartId") },
+      };
+      await axiosInstance.patch(`/ShoppingCart`, data, options);
+    } catch {
+      console.log("Error while adding To Cart!");
+    }
+  }
+};
