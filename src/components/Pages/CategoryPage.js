@@ -21,7 +21,7 @@ function CategoryPage() {
     if (!category) {
       return;
     }
-    GetProductsByType(category.name).then((products) => {
+    GetProductsByType(category.id).then((products) => {
       setCategoryProducts(products);
     });
   };

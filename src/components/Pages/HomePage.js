@@ -25,7 +25,7 @@ function HomePage() {
         {/* Now showing only first six categories, later maybe do a slider? */}
         {categories.slice(0, 6).map((c) => (
           <Col xs={2}>
-            <CategoryCard id={c.id} category={c.name} /*image={c.image}*/ />
+            <CategoryCard id={c.id} category={c.name} image={c.image} />
           </Col>
         ))}
       </Row>
