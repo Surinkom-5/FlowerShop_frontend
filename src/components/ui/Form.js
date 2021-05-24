@@ -301,18 +301,6 @@ class CreateAddressForm extends React.Component {
         )}
         <TextInput
           type="text"
-          placeholder="Vardas"
-          onChange={this.handleInputChange}
-        />
-        <br />
-        <TextInput
-          type="text"
-          placeholder="Pavardė"
-          onChange={this.handleInputChange}
-        />
-        <br />
-        <TextInput
-          type="text"
           placeholder="Adresas"
           onChange={this.handleInputChange}
           name="street"
@@ -337,22 +325,7 @@ class CreateAddressForm extends React.Component {
           </Col>
         </Row>
         <br />
-        <Row>
-          <Col xs={6}>
-            <TextInput
-              type="text"
-              placeholder="Telefono numeris"
-              onChange={this.handleInputChange}
-            />
-          </Col>
-          <Col xs={6}>
-            <TextInput
-              type="text"
-              placeholder="El.pašto adresas"
-              onChange={this.handleInputChange}
-            />
-          </Col>
-        </Row>
+        
         {this.state.showMessage ? (
           <div>
             <br />

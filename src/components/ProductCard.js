@@ -7,7 +7,14 @@ import {
   ProductCardPrice,
   Description,
 } from "./ui/Text";
-
+import {
+  GetCategories,
+  GetProducts,
+  GetCart,
+  GetUser,
+  GetAddresses,
+  AddToCart
+} from "../services";
 import { GreenButton, CircleButton } from "./ui/Buttons";
 import "./ui/styles.css";
 import { Row, Col } from "react-bootstrap";
@@ -51,6 +58,15 @@ function ProductCard(props) {
 
   const getShortenedDescription = () => {
     return props.description.substr(0, maxDescriptionLength) + "...";
+  };
+
+  const addToCart = () => {
+    const data = {
+      productId: props.code,
+      quantity: amount,
+    };
+    AddToCart(data);
+    // UpdateAddress(id, newAdress).then(setShowMessage(true));
   };
 
   return (
@@ -107,7 +123,7 @@ function ProductCard(props) {
               </InputGroup>
             </Col>
             <Col>
-              <SubmitButton>Į krepšelį</SubmitButton>
+              <SubmitButton onClick={addToCart}>Į krepšelį</SubmitButton>
             </Col>
           </Row>
         </Col>

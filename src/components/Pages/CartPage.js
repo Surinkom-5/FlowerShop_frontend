@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import styled from "styled-components";
 import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -8,11 +8,37 @@ import {TextInput,SubmitButton} from "../ui/Form";
 
 import { CartHeader, TableHead } from "../ui/Text";
 import { useSelector } from "react-redux";
+import {
+  GetCategories,
+  GetProducts,
+  GetCart,
+  GetUser,
+  GetAddresses,
+  AddToCart
+} from "../../services";
+import { useDispatch } from "react-redux";
+
 
 function CartPage(props) {
   const [rulesAgreementChecked, setRulesAgreementChecked] = useState(false);
   const [typeOfPayment, setTypeOfPayment] = useState(null);
   const cart = useSelector((state) => state.appReducer.cart);
+  const [addresses, setAddresses] = useState(null);
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.appReducer.user);
+
+  const [addressId, setAddressId] = useState(null);
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  const loadData = () => {
+    // get addresses
+    GetAddresses(dispatch).then((p) => {
+      setAddresses(p);
+    });
+  };
   return (
     <Container>
       <CartHeader num="1">Krepšelis</CartHeader>
@@ -37,6 +63,25 @@ function CartPage(props) {
       <Row>
         <Col xs={6}>
         <CartHeader num="2">Pristatymo informacija</CartHeader>
+        {user ? (
+        <form>
+            <div key='radio' className="mb-3">
+            {addresses ? (addresses.map((c) => (
+          <Form.Check 
+          custom
+          name='addressId'
+          type='radio'
+          id={`${c.addressId}`}
+          label={`${c.city}`}
+          onChange={(e) => {
+            setAddressId(e.target.id);
+          }}
+        />
+        ))) : null}
+
+            </div>
+        </form>
+        ) : (
           <form className="cart-address-container">
             <TextInput type="text" placeholder="Vardas" />
             <br/>
@@ -62,33 +107,20 @@ function CartPage(props) {
               </Col>
             </Row>
           </form>
+        )}
 
         </Col>
         <Col xs={6}>
-        <CartHeader num="2">Mokėjimo būdas</CartHeader>
+        <CartHeader num="3">Mokėjimas</CartHeader>
         <div className="payment-container">
-          <Row className="payment-info">
-            <Col xs={6} className="payment-info-label">
-              Pilna kaina
-            </Col>
-            <Col xs={6}>
-              {cart.price /1.21}€
-            </Col>
-          </Row>
-          <Row className="payment-info">
-            <Col xs={6} className="payment-info-label">
-              PVM
-            </Col>
-            <Col xs={6}>
-            {cart.price * 0.21}€
-            </Col>
-          </Row>
           <Row className="payment-info">
             <Col xs={6} className="payment-info-label">
               Galutinė kaina
             </Col>
             <Col xs={6}>
-            {cart.price}€
+            {cart ?  (
+              cart.price
+        ) : null}€
             </Col>
           </Row>
           <br/>

@@ -45,14 +45,12 @@ function UserInfoPage() {
       <Row>
         {addresses
           ? addresses.map((a) => (
-              <Col xs={2}>
                 <AddressCard
                   id={a.addressId}
                   city={a.city}
                   code={a.postalCode}
                   adress={a.street}
                 />
-              </Col>
             ))
           : null}
       </Row>

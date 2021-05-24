@@ -4,6 +4,8 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
 import { Header1Center } from "../ui/Text";
 import {TextInput,SubmitButton,CreateAddressForm} from "../ui/Form";
+import "../../style.css";
+
 
 function CreateAddressPage() {
   return (
