@@ -21,8 +21,8 @@ function App() {
   useEffect(() => {
     GetProducts(dispatch);
     GetCategories(dispatch);
-    GetUser(dispatch)
-    GetCart(dispatch)
+    GetUser(dispatch);
+    GetCart(dispatch);
   }, []);
 
   return (
@@ -34,7 +34,7 @@ function App() {
         <Route path="/login" component={LoginPage} />
         <Route exact path="/product/:id" component={ProductPage} />
         <Route path="/cart" component={CartPage} />
-        <Route path="/address" component={ChangeAddressPage} />
+        <Route path="/address/:id" component={ChangeAddressPage} />
         <Route path="/create-address" component={CreateAddressPage} />
         {/* Needs to be authenticated route */}
         <Route path="/user" component={UserInfoPage} />
