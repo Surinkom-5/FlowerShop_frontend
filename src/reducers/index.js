@@ -12,6 +12,7 @@ const defaultState = {
   products: [],
   categories: [],
   cart: null,
+  addresses: [],
 };
 
 function setCategories(state, action) {
@@ -42,6 +43,12 @@ function setCart(state, action) {
   };
 }
 
+function setAdresses(state, action) {
+  return {
+    ...state,
+    addresses: action.addresses,
+  };
+}
 
 export default function AppReducer(state = defaultState, action) {
   switch (action.type) {
@@ -53,6 +60,8 @@ export default function AppReducer(state = defaultState, action) {
       return setCart(state, action);
     case actionTypes.SET_USER:
       return setUser(state, action);
+    case actionTypes.SET_ADRESSES:
+      return setAdresses(state, action);
     default:
       return state;
   }

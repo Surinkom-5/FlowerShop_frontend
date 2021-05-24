@@ -1,4 +1,10 @@
-import { SET_CART, SET_CATEGORIES, SET_PRODUCTS, SET_USER } from "./actionTypes";
+import {
+  SET_ADRESSES,
+  SET_CART,
+  SET_CATEGORIES,
+  SET_PRODUCTS,
+  SET_USER,
+} from "./actionTypes";
 
 export function setCategories(categories) {
   return {
@@ -25,5 +31,12 @@ export function setCart(cart) {
   return {
     type: SET_CART,
     cart,
+  };
+}
+
+export function setAdresses(adresses) {
+  return {
+    type: SET_ADRESSES,
+    adresses,
   };
 }

@@ -10,24 +10,32 @@ import AddressCard from "../AddressCard";
 import OrderListItem from "../OrderListItem";
 import { Header1Center } from "../ui/Text";
 import { TableHead } from "../ui/Text";
-import {TextInput,SubmitButton} from "../ui/Form";
-import { GetCategories, GetProducts, GetCart, GetUser, GetAddresses } from "../../services";
+import { TextInput, SubmitButton } from "../ui/Form";
+import {
+  GetCategories,
+  GetProducts,
+  GetCart,
+  GetUser,
+  GetAddresses,
+} from "../../services";
 import { useHistory, useLocation } from "react-router-dom";
-
+import { useDispatch } from "react-redux";
 
 function UserInfoPage() {
   const history = useHistory();
   const navigate = (url) => {
     history.push(url);
   };
-  const [addresses, setAddresses] = useState({});
+  const [addresses, setAddresses] = useState(null);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     loadData();
   }, []);
 
   const loadData = () => {
     // get addresses
-    GetAddresses().then((p) => {
+    GetAddresses(dispatch).then((p) => {
       setAddresses(p);
     });
   };
@@ -35,35 +43,43 @@ function UserInfoPage() {
     <Container>
       <Header1Center>Adresai</Header1Center>
       <Row>
-      {/* {addresses ? (addresses.map((c) => (
-          <Col xs={2}>
-            <AddressCard/>
-          </Col>
-        ))) : null} */}
+        {addresses
+          ? addresses.map((a) => (
+              <Col xs={2}>
+                <AddressCard
+                  id={a.addressId}
+                  city={a.city}
+                  code={a.postalCode}
+                  adress={a.street}
+                />
+              </Col>
+            ))
+          : null}
       </Row>
-      <SubmitButton onClick={() => navigate("/create-address")}>Naujas adresas</SubmitButton>
+      <SubmitButton onClick={() => navigate("/create-address")}>
+        Naujas adresas
+      </SubmitButton>
       <Header1Center>Užsakymai</Header1Center>
 
       <div className="orders-container">
         <Row className="table-head-container">
-            <Col sm={3}>
-              <TableHead>Užsakymas</TableHead>
-            </Col>
-            <Col sm={3}>
-              <TableHead>Data</TableHead>
-            </Col>
-            <Col sm={3}>
-              <TableHead>Kiekis</TableHead>
-            </Col>
-            <Col sm={3}>
-              <TableHead>Suma</TableHead>
-            </Col>
+          <Col sm={3}>
+            <TableHead>Užsakymas</TableHead>
+          </Col>
+          <Col sm={3}>
+            <TableHead>Data</TableHead>
+          </Col>
+          <Col sm={3}>
+            <TableHead>Kiekis</TableHead>
+          </Col>
+          <Col sm={3}>
+            <TableHead>Suma</TableHead>
+          </Col>
         </Row>
-          <OrderListItem />
-          <OrderListItem />
-          <OrderListItem />
+        <OrderListItem />
+        <OrderListItem />
+        <OrderListItem />
       </div>
-      
     </Container>
   );
 }
