@@ -1,7 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-import productImage from "../utils/images/product.png";
 import { useHistory } from "react-router";
 
 function CategoryCard(props) {
@@ -23,7 +22,7 @@ function CategoryCard(props) {
 
 CategoryCard.defaultProps = {
   id: 0,
-  image: productImage,
+  image: "https://dummyimage.com/500x500/d6d6d6/fff",
   category: "Kategorija",
 };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState,useContext } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Header1 } from "../ui/Text";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ProductCardSmall from "../ProductCardSmall";
@@ -9,7 +9,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { GetProductsByType, GetCategories } from "../../services";
 import { useParams } from "react-router";
-import {Context} from '../../store/store'
+import { Context } from "../../store";
 
 function CategoryPage() {
   const [state, dispatch] = useContext(Context);
@@ -46,7 +46,7 @@ function CategoryPage() {
       <Row>
         {categoryProducts
           ? categoryProducts.map((p) => (
-              <Col xs={3}>
+              <Col lg={3} xs={12}>
                 <ProductCardSmall
                   id={p.id}
                   title={p.name}

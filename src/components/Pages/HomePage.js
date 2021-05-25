@@ -1,4 +1,4 @@
-import React, { useEffect,useContext } from "react";
+import React, { useEffect, useContext } from "react";
 import { Header1 } from "../ui/Text";
 import ProductCardSmall from "../ProductCardSmall";
 import CategoryCard from "../CategoryCard";
@@ -6,18 +6,17 @@ import CategoryCard from "../CategoryCard";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { GetCategories, GetProducts} from "../../services";
-import {Context} from '../../store/store'
+import { GetCategories, GetProducts, GetUser } from "../../services";
+import { Context } from "../../store";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../../style.css";
 
-
 function HomePage() {
-
   const [state, dispatch] = useContext(Context);
 
   useEffect(() => {
+    GetUser(dispatch);
     GetProducts(dispatch);
     GetCategories(dispatch);
   }, []);
@@ -30,7 +29,7 @@ function HomePage() {
       <Header1 className="text-center">Kategorijos</Header1>
       <Row>
         {categories.slice(0, 6).map((c) => (
-          <Col xs={2}>
+          <Col lg={2} xs={12}>
             <CategoryCard id={c.id} category={c.name} image={c.image} />
           </Col>
         ))}
@@ -38,7 +37,7 @@ function HomePage() {
       <Header1>Naujos gėlės</Header1>
       <Row>
         {products.slice(0, 4).map((p) => (
-          <Col xs={3}>
+          <Col lg={3} xs={12}>
             <ProductCardSmall
               id={p.id}
               title={p.name}

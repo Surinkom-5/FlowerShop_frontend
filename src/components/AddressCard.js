@@ -1,10 +1,7 @@
 import React from "react";
-import styled from "styled-components";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { GreenButton } from "./ui/Buttons";
-import { SimpleText } from "./ui/Text";
-import { TextInput, SubmitButton } from "./ui/Form";
-import { Row, Col } from "react-bootstrap";
+import { SubmitButton } from "./ui/Form";
+import { Col } from "react-bootstrap";
 import { useHistory } from "react-router";
 
 function AdressCard(props) {
@@ -15,13 +12,14 @@ function AdressCard(props) {
   }
 
   return (
-    <Col xs={4}>
+    <Col xs={12} lg={4}>
       <div className="address-card">
         <span>{props.street}</span>
         <br />
         <span>{props.city}</span>
         <br />
         <span>{props.code}</span>
+        <br />
         <br />
         <SubmitButton onClick={navigateChangeAddress}>Keisti</SubmitButton>
       </div>

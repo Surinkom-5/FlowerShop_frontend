@@ -15,6 +15,7 @@ function ProductCardSmall(props) {
     if (props.title.length <= titleLength) {
       return props.title;
     }
+
     return props.title.substr(0, titleLength) + "...";
   };
 
@@ -24,7 +25,7 @@ function ProductCardSmall(props) {
       onClick={() => navigateToProductPage(props.id)}
     >
       {props.image ? (
-      <img className="img-fluid" src={props.image} />
+        <img className="img-fluid" src={props.image} />
       ) : (
         <img className="img-fluid" src={ProductCardSmall.defaultProps.image} />
       )}
@@ -38,7 +39,7 @@ function ProductCardSmall(props) {
 ProductCardSmall.defaultProps = {
   id: 0,
   title: "Gėlė",
-  image: 'https://dummyimage.com/200x200/d6d6d6/fff',
+  image: "https://dummyimage.com/400x400/d6d6d6/fff",
   price: 0,
 };
 

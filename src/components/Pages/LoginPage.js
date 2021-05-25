@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState, useContext } from "react";
 import { Header1Center } from "../ui/Text";
 import { TextInput, SubmitButton, LoginForm } from "../ui/Form";
 import * as axios from "axios";
@@ -9,7 +9,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Alert from "react-bootstrap/Alert";
-import {Context} from '../../store/store'
+import { Context } from "../../store";
 
 function LoginPage(props) {
   const history = useHistory();
@@ -17,7 +17,12 @@ function LoginPage(props) {
   const navigate = (url) => {
     history.push(url);
   };
-  
+
+  const [state, dispatch] = useContext(Context);
+
+  if (state.user) {
+    navigate("/user");
+  }
 
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -36,7 +41,7 @@ function LoginPage(props) {
     axiosInstance.post("/Identity/Login", data).then(
       (response) => {
         cookies.set("userToken", response.data.token, { path: "/" });
-        navigate('/');
+        navigate("/");
       },
       (error) => {
         if (Array.isArray(Object.values(error.response.data.errors)[0])) {
@@ -49,7 +54,6 @@ function LoginPage(props) {
       }
     );
     e.preventDefault();
-
   };
 
   return (
@@ -58,9 +62,7 @@ function LoginPage(props) {
       <Row className="justify-content-center">
         <Col xs={4}>
           <form className="login-container">
-            {message && (
-              <Alert variant="danger">{message}</Alert>
-            )}
+            {message && <Alert variant="danger">{message}</Alert>}
             <TextInput
               type="text"
               placeholder="El. pašto adresas"

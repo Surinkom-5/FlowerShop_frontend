@@ -27,14 +27,13 @@ function App() {
         <Route path="/cart" component={CartPage} />
         <Route path="/address/:id" component={ChangeAddressPage} />
         <Route path="/create-address" component={CreateAddressPage} />
-        {/* Needs to be authenticated route */}
         <Route path="/user" component={UserInfoPage} />
         <Route path="/category/:id" component={CategoryPage} />
         <Route path="/order-confirmation" component={OrderConfirmation} />
 
         <Route component={PageNotFound} />
       </Switch>
-      {/* <Footer /> */}
+      <Footer />
     </Router>
   );
 }

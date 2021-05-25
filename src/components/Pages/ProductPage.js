@@ -49,7 +49,7 @@ function ProductPage() {
       <Header1>Panašios gėlės</Header1>
       <Row>
         {similarProductsToShow.map((p) => (
-          <Col xs={3}>
+          <Col lg={3} xs={12}>
             <ProductCardSmall
               id={p.id}
               title={p.name}
