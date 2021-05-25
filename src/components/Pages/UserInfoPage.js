@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Alert } from "react-bootstrap";
 import AddressCard from "../AddressCard";
 import OrderListItem from "../OrderListItem";
 import { Header1Center } from "../ui/Text";
@@ -75,14 +75,16 @@ function UserInfoPage() {
             <TableHead>Kiekis</TableHead>
           </Col>
         </Row>
-        {orders
-          ? orders.map((o) => (
-              <OrderListItem
-                id={o.id}
-                total={o.totalPrice}
-                status={o.orderStatus}
-              />
-            ))
+        {orders ? 
+          orders.length ? (
+            orders.map((o) => (
+                  <OrderListItem
+                    id={o.id}
+                    total={o.totalPrice}
+                    status={o.orderStatus}
+                  />
+                ))
+          ) : (<Alert variant="danger">Užsakymų nėra</Alert>)
           : null}
       </div>
     </Container>

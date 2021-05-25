@@ -43,7 +43,9 @@ function RegisterPage() {
         baseURL: "http://localhost:57678/api",
       });
       axiosInstance.post("/Identity/Register", data).then(
-        (response) => {},
+        (response) => {
+          navigate('/login')
+        },
         (error) => {
           if (Array.isArray(Object.values(error.response.data.errors)[0])) {
             var message = Object.values(error.response.data.errors)[0][0];

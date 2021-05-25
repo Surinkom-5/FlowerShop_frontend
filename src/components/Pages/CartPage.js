@@ -190,8 +190,9 @@ function CartPage(props) {
           {user ? (
             <form className="cart-address-container">
               <div key="radio" className="mb-3">
-                {addresses
-                  ? addresses.map((c) => (
+                {addresses ? (
+                  addresses.length ? (
+                    addresses.map((c) => (
                       <Form.Check
                         custom
                         name="addressId"
@@ -203,7 +204,9 @@ function CartPage(props) {
                         }}
                       />
                     ))
-                  : null}
+                ) : (<Alert variant="danger">Adresų nėra. Sukurkite nors 1 adresą</Alert>
+                )
+                  )  : (<Alert variant="danger">Adresų nėra. Sukurkite nors 1 adresą</Alert>)}
               </div>
             </form>
           ) : (
