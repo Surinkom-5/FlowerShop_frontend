@@ -1,13 +1,5 @@
-import {
-  setProducts,
-  setCategories,
-  setCart,
-  setUser,
-  setAdresses,
-} from "../actions/common";
 import * as axios from "axios";
 import Cookies from "universal-cookie";
-import { useDispatch, useSelector } from "react-redux";
 const axiosInstance = axios.create({
   baseURL: "http://localhost:57678/api",
 });
@@ -83,6 +75,7 @@ export const GetCart = async (dispatch) => {
         headers: { cartCookie: cookies.get("cartId") },
       };
       const { data } = await axiosInstance.get(`/ShoppingCart`, options)
+
       await dispatch({type: 'SET_CART', data: data});
     } catch {
       console.log("Error while getting Cart!");
@@ -90,6 +83,8 @@ export const GetCart = async (dispatch) => {
   } else {
     try {
       const { data } = await axiosInstance.get(`/ShoppingCart`)
+      cookies.set("cartId", data.cartId, { path: "/" });
+
       await dispatch({type: 'SET_CART', data: data});
     } catch {
       console.log("Error while getting Cart!");

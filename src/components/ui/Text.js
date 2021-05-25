@@ -42,21 +42,7 @@ export const BigGreenText = styled.h1`
   font-weight: 700;
   color: rgba(143, 181, 106, 1);
 `;
-// export const Header1 = styled.h1`
-//   font-size: 32px;
-//   margin: 16px 0;
-//   font-family: "Montserrat", sans-serif;
-//   font-weight: 700;
-//   color: rgba(143, 181, 106, 1);
-// `;
 
-// export const Header1Center = styled.h1`
-//   font-size: 32px;
-//   margin: 48px 0;
-//   font-family: "Montserrat", sans-serif;
-//   font-weight: 700;
-//   color: rgba(143, 181, 106, 1);
-// `;
 
 // TODO: change to link
 export const SmallGreenLink = styled.p`

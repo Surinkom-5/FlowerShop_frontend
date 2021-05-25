@@ -1,8 +1,4 @@
 import React, { useEffect, useState, useContext } from "react";
-
-import styled from "styled-components";
-import { BigGreenText, SimpleText } from "../ui/Text";
-import { GreenButton } from "../ui/Buttons";
 import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
@@ -10,15 +6,10 @@ import AddressCard from "../AddressCard";
 import OrderListItem from "../OrderListItem";
 import { Header1Center } from "../ui/Text";
 import { TableHead } from "../ui/Text";
-import {  SubmitButton } from "../ui/Form";
-import {
-
-  GetAddresses,
-} from "../../services";
+import { SubmitButton } from "../ui/Form";
+import { GetAddresses } from "../../services";
 import { useHistory, useLocation } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import {Context} from '../../store/store'
-
+import { Context } from "../../store";
 
 function UserInfoPage() {
   const history = useHistory();
@@ -27,7 +18,10 @@ function UserInfoPage() {
   };
   const [addresses, setAddresses] = useState(null);
   const [state, dispatch] = useContext(Context);
-  
+
+  if (state.user == null) {
+    navigate("/");
+  }
 
   useEffect(() => {
     loadData();
@@ -44,12 +38,12 @@ function UserInfoPage() {
       <Row>
         {addresses
           ? addresses.map((a) => (
-                <AddressCard
-                  id={a.addressId}
-                  city={a.city}
-                  postalCode={a.postalCode}
-                  street={a.street}
-                />
+              <AddressCard
+                id={a.addressId}
+                city={a.city}
+                postalCode={a.postalCode}
+                street={a.street}
+              />
             ))
           : null}
       </Row>

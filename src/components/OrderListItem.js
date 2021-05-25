@@ -1,8 +1,6 @@
 import React from "react";
-import styled from "styled-components";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
-import { SimpleText } from "./ui/Text";
 
 function OrderListItem(props) {
   return (
@@ -29,6 +27,5 @@ OrderListItem.defaultProps = {
   amount: "0",
   price: "0",
 };
-
 
 export default OrderListItem;

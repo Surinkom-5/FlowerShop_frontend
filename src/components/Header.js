@@ -1,15 +1,12 @@
-import React,{useContext,useEffect} from "react";
+import React, { useContext, useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import {Container, Row, Col} from "react-bootstrap";
-import { GetCategories, GetProducts, GetUser} from "../services";
+import { Container, Row, Col } from "react-bootstrap";
+import { GetCategories, GetProducts, GetUser, GetCart } from "../services";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import "../style.css";
-import { useSelector } from "react-redux";
 import SearchBar from "./SearchBar";
-import {Context} from '../store/store'
-
-
+import { Context } from "../store";
 
 function Header() {
   const history = useHistory();
@@ -18,6 +15,9 @@ function Header() {
 
   useEffect(() => {
     GetUser(dispatch);
+    GetCart(dispatch);
+    GetProducts(dispatch);
+    GetCategories(dispatch);
   }, []);
 
   const user = state.user;
@@ -30,30 +30,29 @@ function Header() {
     <div className="header-container">
       <Container>
         <Row>
-          <Col xs={3}>
-            <div className="logo" onClick={() => navigate("/")}>
+          <Col lg={3} xs={12}>
+            <div className="logo text-center" onClick={() => navigate("/")}>
               <span>Gėlių</span>
               <span className="logoText2">Parduotuvė</span>
             </div>
           </Col>
-          <Col xs={6} className="search-input-container">
-            <SearchBar/>
+          <Col lg={6} xs={12} className="search-input-container">
+            <SearchBar />
           </Col>
-          <Col xs={3} className="header-info-container">
+          <Col lg={3} xs={12} className="header-info-container">
             <div className="header-info">
-              {/* TODO: make a conditional statement: if user logged in: button "Logoff" */}
               {user == null ? (
-              <span onClick={() => navigate("/login")} className="user-icon">
-                Prisijungti
-              </span>
+                <span onClick={() => navigate("/login")} className="user-icon">
+                  Prisijungti
+                </span>
               ) : (
                 <span onClick={() => navigate("/user")} className="user-icon">
-                Paskyra
-              </span>
+                  Paskyra
+                </span>
               )}
 
               <span className="cart-icon" onClick={() => navigate("/cart")}>
-                Pirkinių krepšelis
+                Krepšelis
               </span>
             </div>
           </Col>

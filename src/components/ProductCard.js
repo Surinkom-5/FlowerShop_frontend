@@ -1,25 +1,23 @@
 import React, { useEffect, useState } from "react";
 
-import {
-
-  AddToCart
-} from "../services";
+import { AddToCart } from "../services";
 import "./ui/styles.css";
 import { Row, Col, Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import {SubmitButton} from "./ui/Form";
+import { SubmitButton } from "./ui/Form";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
 
 function ProductCard(props) {
   const maxDescriptionLength = 400;
 
-  const [amount, setAmount] = useState(0);
+  const [amount, setAmount] = useState(1);
   const [successMessage, setSuccessMessage] = useState(false);
   const [amountCanBeIncreased, setAmountCanBeIncreased] = useState(true);
 
   useEffect(() => {
-    setAmount(0);
+    setAmount(1);
+    setSuccessMessage(false);
   }, [props.amount]);
 
   const increaseAmount = () => {
@@ -69,11 +67,11 @@ function ProductCard(props) {
         <Col sm={6}>
           <h1 className="product-card-title">{props.title}</h1>
           <Row>
-            <Col>
+            <Col xs={12} lg={6}>
               <span className="product-small-text">Prekės kodas: </span>
               <span className="product-small-text dimmed">{props.code}</span>
             </Col>
-            <Col>
+            <Col xs={12} lg={6}>
               <span className="product-small-text">Kiekis: </span>
               <span className="product-small-text dimmed">
                 {props.amount} vnt
@@ -83,10 +81,10 @@ function ProductCard(props) {
           <h2 className="product-price">{props.price} €/vnt</h2>
           <p>{getShortenedDescription()}</p>
           {successMessage && (
-          <Alert variant="success">Prekė įdėta į krepšelį</Alert>
+            <Alert variant="success">Prekė įdėta į krepšelį</Alert>
           )}
           <Row>
-            <Col>
+            <Col xs={12} lg={6}>
               <InputGroup className="mb-3">
                 <InputGroup.Prepend>
                   <button
@@ -116,8 +114,7 @@ function ProductCard(props) {
                 </InputGroup.Append>
               </InputGroup>
             </Col>
-            <Col>
-            
+            <Col xs={12} lg={6}>
               <SubmitButton onClick={addToCart}>Į krepšelį</SubmitButton>
             </Col>
           </Row>

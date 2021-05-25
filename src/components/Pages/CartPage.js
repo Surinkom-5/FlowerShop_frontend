@@ -1,26 +1,15 @@
-import React, { useState,useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styled from "styled-components";
 import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CartItem from "../CartItem";
 import { Row, Col, Form, Alert } from "react-bootstrap";
-import {TextInput,SubmitButton} from "../ui/Form";
+import { TextInput, SubmitButton } from "../ui/Form";
 
 import { CartHeader, TableHead } from "../ui/Text";
-import { useSelector } from "react-redux";
-import {
-  GetCategories,
-  GetProducts,
-  GetCart,
-  GetUser,
-  GetAddresses,
-  AddToCart
-} from "../../services";
-import { useDispatch } from "react-redux";
+import { GetCart, GetAddresses } from "../../services";
 
-import {Context} from '../../store/store'
-
-
+import { Context } from "../../store";
 
 function CartPage(props) {
   const [rulesAgreementChecked, setRulesAgreementChecked] = useState(false);
@@ -55,196 +44,220 @@ function CartPage(props) {
   };
 
   const createOrder = (e) => {
-    if(!cart.cartItems.length){
+    if (!cart.cartItems.length) {
       setMessage("Krepšelis yra tuščias!");
       return;
     }
 
-    if(state.user){
-      if(addressId == null){
+    if (state.user) {
+      if (addressId == null) {
         setMessage("Pasirinkite adresą");
         return;
       }
-      if(!rulesAgreementChecked){
+      if (!rulesAgreementChecked) {
         setMessage("Sutikite su taisyklėmis");
         return;
       }
       const data = {
         addressId: addressId,
-        comment: 'uzsakymas'
+        comment: "uzsakymas",
       };
-    }else{
-      if(!firstname){
+    } else {
+      if (!firstname) {
         setMessage("Įveskite vardą");
         return;
       }
-      if(!lastname){
+      if (!lastname) {
         setMessage("Įveskite pavardę");
         return;
       }
-      if(!street){
+      if (!street) {
         setMessage("Įveskite adresą");
         return;
       }
-      if(!city){
+      if (!city) {
         setMessage("Įveskite miestą");
         return;
       }
-      if(!postalCode){
+      if (!postalCode) {
         setMessage("Įveskite pašto kodą");
         return;
       }
-      if(!phone){
+      if (!phone) {
         setMessage("Įveskite telefono numerį");
         return;
       }
-      if(!email){
+      if (!email) {
         setMessage("Įveskite el. pašto adresą");
         return;
       }
-      if(!rulesAgreementChecked){
+      if (!rulesAgreementChecked) {
         setMessage("Sutikite su taisyklėmis");
         return;
       }
       const data = {
-        comment: 'uzsakymas',
+        comment: "uzsakymas",
         email: email,
         phoneNumber: phone,
         firstName: firstname,
         lastName: lastname,
         city: city,
         address: street,
-        postCode: postalCode
+        postCode: postalCode,
       };
     }
 
     e.preventDefault();
-
   };
   return (
     <Container>
       <CartHeader num="1">Krepšelis</CartHeader>
       <div className="cart-items-container">
         <Row className="table-head-container">
-            <Col xs={6}>
-              <TableHead>Prekė</TableHead>
-            </Col>
-            <Col xs={2}>
-              <TableHead>Kiekis</TableHead>
-            </Col>
-            <Col xs={2}>
-              <TableHead>Kaina</TableHead>
-            </Col>
-            <Col xs={2}>
-            </Col>
+          <Col lg={6} xs={4}>
+            <TableHead>Prekė</TableHead>
+          </Col>
+          <Col lg={2} xs={4}>
+            <TableHead>Kiekis</TableHead>
+          </Col>
+          <Col lg={2} xs={4}>
+            <TableHead>Kaina</TableHead>
+          </Col>
+          <Col lg={2}></Col>
         </Row>
-        {cart ? (cart.cartItems.length ? (
-          cart.cartItems.map((c) => (
-            <CartItem id={c.productId} quantity={c.quantity}/>
+        {cart ? (
+          cart.cartItems.length ? (
+            cart.cartItems.map((c) => (
+              <CartItem id={c.productId} quantity={c.quantity} />
+            ))
+          ) : (
+            <Alert variant="danger">Prekių nėra</Alert>
           )
-        )) : (
-        <Alert variant="danger">Prekių nėra</Alert>
-
-        )) : 
-        <Alert variant="danger">Prekių nėra</Alert>
-        }
+        ) : (
+          <Alert variant="danger">Prekių nėra</Alert>
+        )}
       </div>
       <Row>
-        <Col xs={6}>
-        <CartHeader num="2">Pristatymo informacija</CartHeader>
-        {user ? (
-        <form className="cart-address-container">
-            <div key='radio' className="mb-3">
-            {addresses ? (addresses.map((c) => (
-          <Form.Check 
-          custom
-          name='addressId'
-          type='radio'
-          id={`${c.addressId}`}
-          label={`${c.city}`}
-          onChange={(e) => {
-            setAddressId(e.target.id);
-          }}
-        />
-        ))) : null}
-
-            </div>
-        </form>
-        ) : (
-          <form className="cart-address-container">
-            <TextInput type="text" placeholder="Vardas" 
-            onChange={(e) => {
-              setFirstname(e.target.value);
-            }}/>
-            <br/>
-            <TextInput type="text" placeholder="Pavardė" 
-            onChange={(e) => {
-              setLastname(e.target.value);
-            }}/>
-            <br/>
-            <TextInput type="text" placeholder="Adresas" 
-            onChange={(e) => {
-              setStreet(e.target.value);
-            }}/>
-            <br/>
-            <Row>
-              <Col xs={6}>
-                <TextInput type="text" placeholder="Miestas" 
+        <Col lg={6} xs={12}>
+          <CartHeader num="2">Pristatymo informacija</CartHeader>
+          {user ? (
+            <form className="cart-address-container">
+              <div key="radio" className="mb-3">
+                {addresses
+                  ? addresses.map((c) => (
+                      <Form.Check
+                        custom
+                        name="addressId"
+                        type="radio"
+                        id={`${c.addressId}`}
+                        label={`${c.city}`}
+                        onChange={(e) => {
+                          setAddressId(e.target.id);
+                        }}
+                      />
+                    ))
+                  : null}
+              </div>
+            </form>
+          ) : (
+            <form className="cart-address-container">
+              <TextInput
+                type="text"
+                placeholder="Vardas"
                 onChange={(e) => {
-                  setCity(e.target.value);
-                }}/>
-              </Col>
-              <Col xs={6}>
-                <TextInput type="text" placeholder="Pašto kodas" 
+                  setFirstname(e.target.value);
+                }}
+              />
+              <br />
+              <TextInput
+                type="text"
+                placeholder="Pavardė"
                 onChange={(e) => {
-                  setPostalCode(e.target.value);
-                }}/>
-              </Col>
-            </Row>
-            <br/>
-            <Row>
-              <Col xs={6}>
-                <TextInput type="text" placeholder="Telefono numeris" onChange={(e) => {
-                    setPhone(e.target.value);
-                  }}/>
-              </Col>
-              <Col xs={6}>
-                <TextInput type="text" placeholder="El.pašto adresas" onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}/>
-              </Col>
-            </Row>
-          </form>
-        )}
-
+                  setLastname(e.target.value);
+                }}
+              />
+              <br />
+              <TextInput
+                type="text"
+                placeholder="Adresas"
+                onChange={(e) => {
+                  setStreet(e.target.value);
+                }}
+              />
+              <br />
+              <Row>
+                <Col lg={6} xs={12}>
+                  <TextInput
+                    type="text"
+                    placeholder="Miestas"
+                    onChange={(e) => {
+                      setCity(e.target.value);
+                    }}
+                  />
+                </Col>
+                <Col lg={6} xs={12}>
+                  <TextInput
+                    type="text"
+                    placeholder="Pašto kodas"
+                    onChange={(e) => {
+                      setPostalCode(e.target.value);
+                    }}
+                  />
+                </Col>
+              </Row>
+              <br />
+              <Row>
+                <Col lg={6} xs={12}>
+                  <TextInput
+                    type="text"
+                    placeholder="Telefono numeris"
+                    onChange={(e) => {
+                      setPhone(e.target.value);
+                    }}
+                  />
+                </Col>
+                <Col lg={6} xs={12}>
+                  <TextInput
+                    type="text"
+                    placeholder="El.pašto adresas"
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                    }}
+                  />
+                </Col>
+              </Row>
+            </form>
+          )}
         </Col>
-        <Col xs={6}>
-        <CartHeader num="3">Mokėjimas</CartHeader>
-        <div className="payment-container">
-          <Row className="payment-info">
-            <Col xs={6} className="payment-info-label">
-              Galutinė kaina
-            </Col>
-            <Col xs={6}>
-            {cart ?  (
-              cart.price
-        ) : null}€
-            </Col>
-          </Row>
-          <br/>
-          <div class="custom-control custom-checkbox">
-            <input type="checkbox" className="custom-control-input" id="term_check" onClick={checkRules}/>
-            <label className="custom-control-label" for="term_check">Su paslaugos teikimo sąlygomis ir taisyklėmis bei privatumo politika susipažinau ir sutinku.</label>
+        <Col lg={6} xs={12}>
+          <CartHeader num="3">Mokėjimas</CartHeader>
+          <div className="payment-container">
+            <Row className="payment-info">
+              <Col lg={6} xs={12} className="payment-info-label">
+                Galutinė kaina
+              </Col>
+              <Col lg={6} xs={12}>
+                {cart ? cart.price : null}€
+              </Col>
+            </Row>
+            <br />
+            <div class="custom-control custom-checkbox">
+              <input
+                type="checkbox"
+                className="custom-control-input"
+                id="term_check"
+                onClick={checkRules}
+              />
+              <label className="custom-control-label" for="term_check">
+                Su paslaugos teikimo sąlygomis ir taisyklėmis bei privatumo
+                politika susipažinau ir sutinku.
+              </label>
+            </div>
+            <br />
+            {message ? <Alert variant="danger">{message}</Alert> : null}
+
+            <SubmitButton onClick={createOrder}>Sukurti užsakymą</SubmitButton>
           </div>
-          <br/>
-          {message ? (
-          <Alert variant="danger">{message}</Alert>
-          ) : null}
-
-          <SubmitButton onClick={createOrder}>Sukurti užsakymą</SubmitButton>
-
-        </div>
-
         </Col>
       </Row>
     </Container>

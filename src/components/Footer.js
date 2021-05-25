@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 function Footer(props) {
-  return <Container>Footer information</Container>;
+  return <Container>Surinkom 5</Container>;
 }
 
 const Container = styled.div`
