@@ -76,9 +76,15 @@ function AdminProduct() {
         headers: { Authorization: "Bearer " + cookies.get("userToken") },
       };
       axiosInstance.patch(`/Products/${id}`, data, options).then(
-        (response) => {},
+        (response) => {
+          navigate('/admin')
+        },
         (error) => {
-          setMessage("Prekė jau buvo pakeista!");
+          if(error.response.status == 409){
+            setMessage("Prekė jau buvo pakeista!");
+          }else{
+            setMessage("Nepavyko atnaujinti prekės!");
+          }
         }
       );
     }
