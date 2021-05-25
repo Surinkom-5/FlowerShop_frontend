@@ -5,7 +5,7 @@ import { Row, Col, Alert } from "react-bootstrap";
 import { Header1Center } from "../ui/Text";
 import { TextInput, SubmitButton } from "../ui/Form";
 import { useHistory, useParams } from "react-router";
-import { GetAddresses,GetUserAuth } from "../../services";
+import { GetAddresses, GetUserAuth } from "../../services";
 import { SmallGreenLink } from "../../components/ui/Text";
 import { Context } from "../../store";
 import * as axios from "axios";
@@ -22,9 +22,9 @@ function ChangeAddressPage() {
 
   useEffect(() => {
     GetUserAuth().then((user) => {
-        if (user == null) {
-            navigate("/");
-        }
+      if (user == null) {
+        navigate("/");
+      }
     });
   }, []);
 
@@ -38,7 +38,6 @@ function ChangeAddressPage() {
   useEffect(() => {
     loadData();
   }, []);
-
 
   useEffect(() => {
     if (address) {

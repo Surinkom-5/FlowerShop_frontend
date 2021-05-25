@@ -1,12 +1,10 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col, Badge } from "react-bootstrap";
-import {SubmitButton } from "./ui/Form";
-import { useHistory, useLocation,useParams} from "react-router-dom";
-
+import { SubmitButton } from "./ui/Form";
+import { useHistory } from "react-router-dom";
 
 function AdminOrderListItem(props) {
-
   const history = useHistory();
   function navigateToOrder() {
     history.push("/admin-order/" + props.id);
@@ -17,12 +15,13 @@ function AdminOrderListItem(props) {
         <span>{props.id}</span>
       </Col>
       <Col sm={3}>
-        <span>{
-                    props.status == "Completed" ? (
-                        <Badge variant="success">Užbaigta</Badge>
-                    ) : (
-                        <Badge variant="warning">Patvirtinta</Badge>
-                    )}</span>
+        <span>
+          {props.status == "Completed" ? (
+            <Badge variant="success">Užbaigta</Badge>
+          ) : (
+            <Badge variant="warning">Patvirtinta</Badge>
+          )}
+        </span>
       </Col>
       <Col sm={3}>
         <span>{props.total} €</span>
@@ -37,7 +36,7 @@ function AdminOrderListItem(props) {
 AdminOrderListItem.defaultProps = {
   order: 0,
   price: "0",
-  state: "Patvirtintas"
+  state: "Patvirtintas",
 };
 
 export default AdminOrderListItem;

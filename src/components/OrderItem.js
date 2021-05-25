@@ -1,4 +1,4 @@
-import React, {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
 import { GetProduct, RemoveFromCart } from "../services";
@@ -17,28 +17,27 @@ function OrderItem(props) {
 
   return (
     <div>
-        <Row>
-          <Col xs={6}>
-            <Row>
-              <Col xs={3}>
-                <img
-                  className="img-fluid cart-item-image"
-                  src={product.image}
-                ></img>
-              </Col>
-              <Col xs={6} className="cart-item-row-title">
-                <span className="cart-item-title">{product.name}</span>
-              </Col>
-            </Row>
-          </Col>
-          <Col xs={3} className="cart-item-row">
-            <span className="cart-item-row">{props.quantity} vnt</span>
-          </Col>
-          <Col xs={3} className="cart-item-row">
-            <b className="text-main">{product.price * props.quantity} €</b>
-          </Col>
-        </Row>
-
+      <Row>
+        <Col xs={6}>
+          <Row>
+            <Col xs={3}>
+              <img
+                className="img-fluid cart-item-image"
+                src={product.image}
+              ></img>
+            </Col>
+            <Col xs={6} className="cart-item-row-title">
+              <span className="cart-item-title">{product.name}</span>
+            </Col>
+          </Row>
+        </Col>
+        <Col xs={3} className="cart-item-row">
+          <span className="cart-item-row">{props.quantity} vnt</span>
+        </Col>
+        <Col xs={3} className="cart-item-row">
+          <b className="text-main">{product.price * props.quantity} €</b>
+        </Col>
+      </Row>
     </div>
   );
 }

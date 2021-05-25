@@ -1,9 +1,9 @@
-import React, { useState, useContext,useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Header1Center } from "../ui/Text";
 import { RegisterForm, TextInput, SubmitButton } from "../ui/Form";
 import * as axios from "axios";
 import { useHistory } from "react-router-dom";
-import {GetUserAuth } from "../../services";
+import { GetUserAuth } from "../../services";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -25,9 +25,9 @@ function RegisterPage() {
 
   useEffect(() => {
     GetUserAuth().then((user) => {
-        if (user) {
-            navigate("/user");
-        }
+      if (user) {
+        navigate("/user");
+      }
     });
   }, []);
   const register = (e) => {

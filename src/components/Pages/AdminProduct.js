@@ -1,17 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Row, Col, Badge, Alert, Form } from "react-bootstrap";
-import AddressCard from "../AddressCard";
-import OrderListItem from "../OrderListItem";
+import { Row, Col, Alert, Form } from "react-bootstrap";
 import { Header1Center } from "../ui/Text";
-import { TableHead } from "../ui/Text";
 import { TextInput, SubmitButton } from "../ui/Form";
-import { GetOrder,UpdateOrderStatus, GetAddress, GetProduct, UpdateProduct,GetUserAuth } from "../../services";
-import { useHistory, useLocation,useParams} from "react-router-dom";
+import { GetProduct, GetUserAuth } from "../../services";
+import { useHistory, useParams } from "react-router-dom";
 import { Context } from "../../store";
-import { Header1 } from "../ui/Text";
-import OrderItem from "../OrderItem";
 import * as axios from "axios";
 import Cookies from "universal-cookie";
 
@@ -25,13 +20,13 @@ function AdminProduct() {
 
   useEffect(() => {
     GetUserAuth().then((user) => {
-        if (user == null) {
-            navigate("/");
-        }else{
-            if(user.userRole != "Owner"){
-                navigate("/");
-            }
+      if (user == null) {
+        navigate("/");
+      } else {
+        if (user.userRole != "Owner") {
+          navigate("/");
         }
+      }
     });
   }, []);
   const [product, setProduct] = useState(null);
@@ -43,11 +38,10 @@ function AdminProduct() {
   const [state, dispatch] = useContext(Context);
   const [message, setMessage] = useState(null);
 
-
   useEffect(() => {
     loadData();
   }, []);
-  
+
   useEffect(() => {
     if (product) {
       setQuantity(product.quantity);
@@ -60,39 +54,34 @@ function AdminProduct() {
 
   const loadData = () => {
     GetProduct(id).then((p) => {
-        setProduct(p);
+      setProduct(p);
     });
   };
 
-
-
-
   const updateProduct = (e) => {
     const data = {
-        "quantity": quantity,
-        "description": description,
-        "name": name,
-        "price": price,
-        "version": version
-    }
+      quantity: quantity,
+      description: description,
+      name: name,
+      price: price,
+      version: version,
+    };
     const axiosInstance = axios.create({
-        baseURL: "http://localhost:57678/api",
-      });
-      
-      const cookies = new Cookies();
-    if(cookies.get("userToken")){
-        const options = {
-            headers: { Authorization: "Bearer " + cookies.get("userToken") },
-          };
-        axiosInstance.patch(`/Products/${id}`,data,options).then(
-            (response) => {
-            },
-            (error) => {
-                setMessage('Prekė jau buvo pakeista!')
+      baseURL: "http://localhost:57678/api",
+    });
 
-            }
-          );
-      }
+    const cookies = new Cookies();
+    if (cookies.get("userToken")) {
+      const options = {
+        headers: { Authorization: "Bearer " + cookies.get("userToken") },
+      };
+      axiosInstance.patch(`/Products/${id}`, data, options).then(
+        (response) => {},
+        (error) => {
+          setMessage("Prekė jau buvo pakeista!");
+        }
+      );
+    }
 
     e.preventDefault();
   };
@@ -128,13 +117,13 @@ function AdminProduct() {
               }}
             />
             <Form.Control
-                className="text-input"
-                as="textarea"
-                value={description}
-                rows={10}
-                onChange={(e) => {
-                    setDescription(e.target.value);
-                  }}
+              className="text-input"
+              as="textarea"
+              value={description}
+              rows={10}
+              onChange={(e) => {
+                setDescription(e.target.value);
+              }}
             />
             <br />
             <SubmitButton onClick={updateProduct}>Atnaujinti</SubmitButton>

@@ -8,7 +8,7 @@ import { Header1Center } from "../ui/Text";
 import { TableHead } from "../ui/Text";
 import { SubmitButton } from "../ui/Form";
 import { GetAddresses, GetOrders, GetUserAuth } from "../../services";
-import { useHistory, useLocation } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import { Context } from "../../store";
 
 function UserInfoPage() {
@@ -16,15 +16,16 @@ function UserInfoPage() {
   const navigate = (url) => {
     history.push(url);
   };
+
   const [addresses, setAddresses] = useState(null);
   const [orders, setOrders] = useState(null);
   const [state, dispatch] = useContext(Context);
 
   useEffect(() => {
     GetUserAuth().then((user) => {
-        if (user == null) {
-            navigate("/");
-        }
+      if (user == null) {
+        navigate("/");
+      }
     });
   }, []);
 
@@ -36,7 +37,7 @@ function UserInfoPage() {
     GetAddresses(dispatch).then((p) => {
       setAddresses(p);
     });
-    if(state.user){
+    if (state.user) {
       GetOrders(state.user.userId).then((p) => {
         setOrders(p);
       });
@@ -76,7 +77,11 @@ function UserInfoPage() {
         </Row>
         {orders
           ? orders.map((o) => (
-              <OrderListItem id={o.id} total={o.totalPrice} status={o.orderStatus}/>
+              <OrderListItem
+                id={o.id}
+                total={o.totalPrice}
+                status={o.orderStatus}
+              />
             ))
           : null}
       </div>

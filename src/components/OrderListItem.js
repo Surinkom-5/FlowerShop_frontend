@@ -9,12 +9,13 @@ function OrderListItem(props) {
         <span>{props.id}</span>
       </Col>
       <Col sm={4}>
-        <span>{
-                    props.status == "Completed" ? (
-                        <Badge variant="success">Užbaigta</Badge>
-                    ) : (
-                        <Badge variant="warning">Patvirtinta</Badge>
-                    )}</span>
+        <span>
+          {props.status == "Completed" ? (
+            <Badge variant="success">Užbaigta</Badge>
+          ) : (
+            <Badge variant="warning">Patvirtinta</Badge>
+          )}
+        </span>
       </Col>
       <Col sm={4}>
         <span>{props.total} €</span>
@@ -26,7 +27,7 @@ function OrderListItem(props) {
 OrderListItem.defaultProps = {
   order: 0,
   price: "0",
-  state: "Patvirtintas"
+  state: "Patvirtintas",
 };
 
 export default OrderListItem;

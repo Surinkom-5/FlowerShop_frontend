@@ -3,8 +3,8 @@ import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col, Alert } from "react-bootstrap";
 import { Header1Center } from "../ui/Text";
-import { TextInput, SubmitButton, CreateAddressForm } from "../ui/Form";
-import { SmallGreenText, SmallGreenLink } from "../../components/ui/Text";
+import { TextInput, SubmitButton } from "../ui/Form";
+import { SmallGreenLink } from "../../components/ui/Text";
 
 import "../../style.css";
 import * as axios from "axios";

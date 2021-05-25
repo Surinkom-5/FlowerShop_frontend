@@ -21,7 +21,6 @@ function CartPage(props) {
   const [state, dispatch] = useContext(Context);
   const history = useHistory();
 
-
   const [addressId, setAddressId] = useState(null);
   const [firstname, setFirstname] = useState(null);
   const [lastname, setLastname] = useState(null);
@@ -30,7 +29,7 @@ function CartPage(props) {
   const [street, setStreet] = useState(null);
   const [city, setCity] = useState(null);
   const [postalCode, setPostalCode] = useState(null);
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState("");
 
   const navigate = (url) => {
     history.push(url);
@@ -78,12 +77,15 @@ function CartPage(props) {
           baseURL: "http://localhost:57678/api",
         });
         const options = {
-          headers: { cartCookie: cookies.get("cartId"),Authorization: "Bearer " + cookies.get("userToken") },
+          headers: {
+            cartCookie: cookies.get("cartId"),
+            Authorization: "Bearer " + cookies.get("userToken"),
+          },
         };
         axiosInstance.post("/Orders", orderData, options).then(
           (response) => {
-            cookies.remove('cartId', { path: '/' });
-            navigate('/order-confirmation');
+            cookies.remove("cartId", { path: "/" });
+            navigate("/order-confirmation");
           },
           (error) => {
             setMessage("Klaida pateikiant užsakymą");
@@ -142,8 +144,8 @@ function CartPage(props) {
         };
         axiosInstance.post("/Orders", orderData, options).then(
           (response) => {
-            cookies.remove('cartId', { path: '/' });
-            navigate('/order-confirmation');
+            cookies.remove("cartId", { path: "/" });
+            navigate("/order-confirmation");
           },
           (error) => {
             setMessage("Klaida pateikiant užsakymą");
@@ -283,16 +285,16 @@ function CartPage(props) {
             </Row> */}
             <br />
             <Form.Control
-                className="text-input"
-                as="textarea"
-                value={comment}
-                placeholder="Komentaras"
-                rows={3}
-                onChange={(e) => {
-                    setComment(e.target.value);
-                  }}
+              className="text-input"
+              as="textarea"
+              value={comment}
+              placeholder="Komentaras"
+              rows={3}
+              onChange={(e) => {
+                setComment(e.target.value);
+              }}
             />
-            <br/>
+            <br />
             <div class="custom-control custom-checkbox">
               <input
                 type="checkbox"

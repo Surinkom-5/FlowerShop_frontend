@@ -2,16 +2,13 @@ import React, { useEffect, useState, useContext } from "react";
 import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
-import AddressCard from "../AddressCard";
 import AdminOrderListItem from "../AdminOrderListItem";
 import AdminProductListItem from "../AdminProductListItem";
 import { Header1Center } from "../ui/Text";
 import { TableHead } from "../ui/Text";
-import { SubmitButton } from "../ui/Form";
-import { GetAllOrders, GetProducts, GetUser,GetUserAuth } from "../../services";
-import { useHistory, useLocation } from "react-router-dom";
+import { GetAllOrders, GetUserAuth } from "../../services";
+import { useHistory } from "react-router-dom";
 import { Context } from "../../store";
-
 
 function Admin() {
   const history = useHistory();
@@ -23,37 +20,24 @@ function Admin() {
   const [orders, setOrders] = useState(null);
   const products = state.products;
 
-//   if (state.user == null) {
-//     navigate("/");
-//   }else{
-//     if(state.user.userRole != "Owner"){
-//         navigate("/");
-//       }
-//   }
-//   if (state.user == null) {
-//     navigate("/");
-//   }
-
-useEffect(() => {
+  useEffect(() => {
     GetUserAuth().then((user) => {
-        if (user == null) {
-            navigate("/");
-        }else{
-            if(user.userRole != "Owner"){
-                navigate("/");
-            }
+      if (user == null) {
+        navigate("/");
+      } else {
+        if (user.userRole != "Owner") {
+          navigate("/");
         }
+      }
     });
   }, []);
   useEffect(() => {
-
     loadData();
   }, []);
   const loadData = () => {
-      GetAllOrders().then((p) => {
-        setOrders(p);
-      });
-      
+    GetAllOrders().then((p) => {
+      setOrders(p);
+    });
   };
   return (
     <Container>
@@ -70,20 +54,22 @@ useEffect(() => {
           <Col sm={3}>
             <TableHead>Kiekis</TableHead>
           </Col>
-          <Col sm={2}>
-
-          </Col>
+          <Col sm={2}></Col>
         </Row>
         {orders
           ? orders.map((o) => (
-              <AdminOrderListItem id={o.id} total={o.totalPrice} status={o.orderStatus}/>
+              <AdminOrderListItem
+                id={o.id}
+                total={o.totalPrice}
+                status={o.orderStatus}
+              />
             ))
           : null}
       </div>
 
       <Header1Center>Prekės</Header1Center>
       <div className="orders-container">
-      <Row className="table-head-container">
+        <Row className="table-head-container">
           <Col sm={1}>
             <TableHead>ID</TableHead>
           </Col>
@@ -96,20 +82,13 @@ useEffect(() => {
           <Col sm={2}>
             <TableHead>Kaina</TableHead>
           </Col>
-          <Col sm={1}>
-
-          </Col>
-          <Col sm={2}>
-
-          </Col>
+          <Col sm={1}></Col>
+          <Col sm={2}></Col>
         </Row>
-      {products
-          ? products.map((p) => (
-              <AdminProductListItem id={p.id}/>
-            ))
+        {products
+          ? products.map((p) => <AdminProductListItem id={p.id} />)
           : null}
-        </div>
-
+      </div>
     </Container>
   );
 }

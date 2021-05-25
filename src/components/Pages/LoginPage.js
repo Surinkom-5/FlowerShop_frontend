@@ -1,4 +1,4 @@
-import React, { useState, useContext,useEffect } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Header1Center } from "../ui/Text";
 import { TextInput, SubmitButton } from "../ui/Form";
 import * as axios from "axios";
@@ -20,16 +20,16 @@ function LoginPage(props) {
     history.push(url);
   };
   const navigateToRegister = () => {
-    history.push('/register');
+    history.push("/register");
   };
 
   const [state, dispatch] = useContext(Context);
 
   useEffect(() => {
     GetUserAuth().then((user) => {
-        if (user) {
-            navigate("/user");
-        }
+      if (user) {
+        navigate("/user");
+      }
     });
   }, []);
 
@@ -91,7 +91,8 @@ function LoginPage(props) {
             />
             <SmallGreenLink onClick={navigateToRegister}>
               Neturite paskyros?
-            </SmallGreenLink><br/>
+            </SmallGreenLink>
+            <br />
             <SubmitButton onClick={login}>Prisijungti</SubmitButton>
           </form>
         </Col>

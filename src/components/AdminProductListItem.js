@@ -1,9 +1,9 @@
-import React, {useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
-import { GetProduct, RemoveFromCart, DeleteProduct } from "../services";
-import {SubmitButton } from "./ui/Form";
-import { useHistory, useLocation,useParams} from "react-router-dom";
+import { GetProduct, DeleteProduct } from "../services";
+import { SubmitButton } from "./ui/Form";
+import { useHistory } from "react-router-dom";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
@@ -23,9 +23,9 @@ function AdminProductListitem(props) {
 
   const deleteProduct = (e) => {
     DeleteProduct(props.id).then((p) => {
-        if(p){
-            setShow(false);
-        }
+      if (p) {
+        setShow(false);
+      }
     });
     e.preventDefault();
   };
@@ -33,13 +33,11 @@ function AdminProductListitem(props) {
     <div>
       {show ? (
         <Row>
-            <Col xs={1} className="cart-item-row-title"><span className="cart-item-title">{product.id}</span>
-            </Col>
+          <Col xs={1} className="cart-item-row-title">
+            <span className="cart-item-title">{product.id}</span>
+          </Col>
           <Col xs={4}>
-            
-
             <Row>
-
               <Col xs={4}>
                 <img
                   className="img-fluid cart-item-image"
@@ -58,7 +56,7 @@ function AdminProductListitem(props) {
             <b className="text-main">{product.price} €</b>
           </Col>
           <Col xs={1} className="cart-item-row">
-          <FontAwesomeIcon
+            <FontAwesomeIcon
               icon={faTrash}
               onClick={deleteProduct}
               className="search-input-icon"
