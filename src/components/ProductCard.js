@@ -40,6 +40,7 @@ function ProductCard(props) {
       }
     }
   };
+  console.log(successMessage);
 
   const getShortenedDescription = () => {
     return props.description.substr(0, maxDescriptionLength) + "...";

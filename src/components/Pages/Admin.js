@@ -3,55 +3,60 @@ import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
 import AddressCard from "../AddressCard";
-import OrderListItem from "../OrderListItem";
+import AdminOrderListItem from "../AdminOrderListItem";
+import AdminProductListItem from "../AdminProductListItem";
 import { Header1Center } from "../ui/Text";
 import { TableHead } from "../ui/Text";
 import { SubmitButton } from "../ui/Form";
-import { GetAddresses, GetOrders } from "../../services";
+import { GetAllOrders, GetProducts, GetUser,GetUserAuth } from "../../services";
 import { useHistory, useLocation } from "react-router-dom";
 import { Context } from "../../store";
+
 
 function Admin() {
   const history = useHistory();
   const navigate = (url) => {
     history.push(url);
   };
-  const [orders, setOrders] = useState(null);
   const [state, dispatch] = useContext(Context);
 
+  const [orders, setOrders] = useState(null);
+  const products = state.products;
+
+//   if (state.user == null) {
+//     navigate("/");
+//   }else{
+//     if(state.user.userRole != "Owner"){
+//         navigate("/");
+//       }
+//   }
 //   if (state.user == null) {
 //     navigate("/");
 //   }
 
-  useEffect(() => {
-    // loadData();
+useEffect(() => {
+    GetUserAuth().then((user) => {
+        if (user == null) {
+            navigate("/");
+        }else{
+            if(user.userRole != "Owner"){
+                navigate("/");
+            }
+        }
+    });
   }, []);
+  useEffect(() => {
 
-//   const loadData = () => {
-//     if(state.user){
-//       GetOrders(state.user.userId).then((p) => {
-//         setOrders(p);
-//       });
-//     }
-//   };
+    loadData();
+  }, []);
+  const loadData = () => {
+      GetAllOrders().then((p) => {
+        setOrders(p);
+      });
+      
+  };
   return (
     <Container>
-      {/* <Header1Center>Adresai</Header1Center>
-      <Row>
-        {addresses
-          ? addresses.map((a) => (
-              <AddressCard
-                id={a.addressId}
-                city={a.city}
-                postalCode={a.postalCode}
-                street={a.street}
-              />
-            ))
-          : null}
-      </Row>
-      <SubmitButton onClick={() => navigate("/create-address")}>
-        Naujas adresas
-      </SubmitButton> */}
       <Header1Center>Užsakymai</Header1Center>
 
       <div className="orders-container">
@@ -59,19 +64,52 @@ function Admin() {
           <Col sm={4}>
             <TableHead>Užsakymas</TableHead>
           </Col>
-          <Col sm={4}>
+          <Col sm={3}>
             <TableHead>Būsena</TableHead>
           </Col>
-          <Col sm={4}>
+          <Col sm={3}>
             <TableHead>Kiekis</TableHead>
+          </Col>
+          <Col sm={2}>
+
           </Col>
         </Row>
         {orders
           ? orders.map((o) => (
-              <OrderListItem id={o.id} total={o.totalPrice} status={o.orderStatus}/>
+              <AdminOrderListItem id={o.id} total={o.totalPrice} status={o.orderStatus}/>
             ))
           : null}
       </div>
+
+      <Header1Center>Prekės</Header1Center>
+      <div className="orders-container">
+      <Row className="table-head-container">
+          <Col sm={1}>
+            <TableHead>ID</TableHead>
+          </Col>
+          <Col sm={4}>
+            <TableHead>Prekė</TableHead>
+          </Col>
+          <Col sm={2}>
+            <TableHead>Kiekis</TableHead>
+          </Col>
+          <Col sm={2}>
+            <TableHead>Kaina</TableHead>
+          </Col>
+          <Col sm={1}>
+
+          </Col>
+          <Col sm={2}>
+
+          </Col>
+        </Row>
+      {products
+          ? products.map((p) => (
+              <AdminProductListItem id={p.id}/>
+            ))
+          : null}
+        </div>
+
     </Container>
   );
 }

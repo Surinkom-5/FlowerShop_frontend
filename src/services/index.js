@@ -6,16 +6,6 @@ const axiosInstance = axios.create({
 
 const cookies = new Cookies();
 
-// Egzamples of how api calls may look like:
-// GET
-// const { data } = await axiosInstance.get(`/products`);
-// DELETE
-// await axiosInstance.delete(`/${product.id}`);
-// POST
-// const { data } = await axiosInstance.post("", product);
-// PUT
-// await axiosInstance.put("", product);
-
 export const GetProducts = async (dispatch) => {
   try {
     const { data } = await axiosInstance.get(`/Products`);
@@ -65,6 +55,20 @@ export const GetUser = async (dispatch) => {
     }
   } else {
     dispatch({type: 'SET_USER', data: null});
+  }
+};
+
+export const GetUserAuth = async (dispatch) => {
+  if (cookies.get("userToken")) {
+    try {
+      const options = {
+        headers: { Authorization: "Bearer " + cookies.get("userToken") },
+      };
+      const { data } = await axiosInstance.get(`/User/CurrentUser`, options);
+      return data;
+    } catch {
+      console.log("Error while getting User!");
+    }
   }
 };
 
@@ -133,6 +137,21 @@ export const GetAddresses = async (dispatch) => {
   }
 };
 
+
+
+export const GetAllOrders = async () => {
+  if (cookies.get("userToken")) {
+    try {
+      const options = {
+        headers: { Authorization: "Bearer " + cookies.get("userToken") },
+      };
+      const { data } = await axiosInstance.get(`/Orders/ForOwner`,options);
+      return data;
+    } catch {
+      console.log("Error while getting Orders!");
+    }
+  }
+};
 export const GetOrders = async (id) => {
   if (cookies.get("userToken")) {
     try {
@@ -141,6 +160,49 @@ export const GetOrders = async (id) => {
     } catch {
       console.log("Error while getting Orders!");
     }
+  }
+};
+
+export const GetAddress = async (id) => {
+  if (cookies.get("userToken")) {
+    try {
+      const options = {
+        headers: { Authorization: "Bearer " + cookies.get("userToken") },
+      };
+      const { data } = await axiosInstance.get(`/Address/${id}`,options);
+      return data;
+    } catch {
+      console.log("Error while getting Orders!");
+    }
+  }
+};
+
+export const UpdateOrderStatus = async (id) => {
+  const cookie = cookies.get("userToken");
+
+  if (cookies.get("userToken")) {
+    try {
+      const orderData = {
+        orderStatus: "Completed",
+      };
+      const options = {
+        headers: { Authorization: "Bearer " + cookie },
+      };
+      const response = await axiosInstance.patch(`/Orders/${id}`,orderData,options);
+      return response;
+    } catch {
+      console.log("Error while updating Order!");
+
+    }
+  }
+};
+
+export const GetOrder = async (id) => {
+  try {
+    const { data } = await axiosInstance.get(`/Orders/${id}`);
+    return data;
+  } catch {
+    console.log("Error while getting Order!");
   }
 };
 
@@ -190,6 +252,34 @@ export const RemoveFromCart = async (id) => {
       await axiosInstance.delete(`/ShoppingCart/${id}`, options);
     } catch {
       console.log("Error while removing from Cart!");
+    }
+  }
+};
+
+export const DeleteProduct = async (id) => {
+  if(cookies.get("userToken")){
+    try {
+      const options = {
+        headers: { Authorization: "Bearer " + cookies.get("userToken") },
+      };
+      const response = await axiosInstance.delete(`/Products/${id}`,options);
+      return response;
+    } catch {
+      console.log("Error while deleting Product!");
+    }
+  }
+};
+
+export const UpdateProduct = async (id, data) => {
+  if(cookies.get("userToken")){
+    try {
+      const options = {
+        headers: { Authorization: "Bearer " + cookies.get("userToken") },
+      };
+      const response = await axiosInstance.patch(`/Products/${id}`,data,options);
+      return response;
+    } catch {
+      console.log("Error while updating Product!");
     }
   }
 };

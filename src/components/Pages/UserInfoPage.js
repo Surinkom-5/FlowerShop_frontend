@@ -7,7 +7,7 @@ import OrderListItem from "../OrderListItem";
 import { Header1Center } from "../ui/Text";
 import { TableHead } from "../ui/Text";
 import { SubmitButton } from "../ui/Form";
-import { GetAddresses, GetOrders } from "../../services";
+import { GetAddresses, GetOrders, GetUserAuth } from "../../services";
 import { useHistory, useLocation } from "react-router-dom";
 import { Context } from "../../store";
 
@@ -20,9 +20,13 @@ function UserInfoPage() {
   const [orders, setOrders] = useState(null);
   const [state, dispatch] = useContext(Context);
 
-  if (state.user == null) {
-    navigate("/");
-  }
+  useEffect(() => {
+    GetUserAuth().then((user) => {
+        if (user == null) {
+            navigate("/");
+        }
+    });
+  }, []);
 
   useEffect(() => {
     loadData();

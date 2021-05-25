@@ -1,8 +1,9 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext,useEffect } from "react";
 import { Header1Center } from "../ui/Text";
 import { RegisterForm, TextInput, SubmitButton } from "../ui/Form";
 import * as axios from "axios";
 import { useHistory } from "react-router-dom";
+import {GetUserAuth } from "../../services";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -22,9 +23,13 @@ function RegisterPage() {
   const [message, setMessage] = useState(null);
   const [state, dispatch] = useContext(Context);
 
-  if (state.user) {
-    navigate("/user");
-  }
+  useEffect(() => {
+    GetUserAuth().then((user) => {
+        if (user) {
+            navigate("/user");
+        }
+    });
+  }, []);
   const register = (e) => {
     const data = {
       email: email,

@@ -30,6 +30,7 @@ function CartPage(props) {
   const [street, setStreet] = useState(null);
   const [city, setCity] = useState(null);
   const [postalCode, setPostalCode] = useState(null);
+  const [comment, setComment] = useState('');
 
   const navigate = (url) => {
     history.push(url);
@@ -70,7 +71,7 @@ function CartPage(props) {
       }
       const orderData = {
         addressId: addressId,
-        comment: "uzsakymas",
+        comment: comment,
       };
       if (cookies.get("cartId") && cookies.get("userToken")) {
         const axiosInstance = axios.create({
@@ -123,7 +124,7 @@ function CartPage(props) {
         return;
       }
       const orderData = {
-        comment: "uzsakymas",
+        comment: comment,
         email: email,
         phoneNumber: phone,
         firstName: firstname,
@@ -272,15 +273,26 @@ function CartPage(props) {
         <Col lg={6} xs={12}>
           <CartHeader num="3">Mokėjimas</CartHeader>
           <div className="payment-container">
-            <Row className="payment-info">
+            {/* <Row className="payment-info">
               <Col lg={6} xs={12} className="payment-info-label">
                 Galutinė kaina
               </Col>
               <Col lg={6} xs={12}>
                 {cart ? cart.price : null}€
               </Col>
-            </Row>
+            </Row> */}
             <br />
+            <Form.Control
+                className="text-input"
+                as="textarea"
+                value={comment}
+                placeholder="Komentaras"
+                rows={3}
+                onChange={(e) => {
+                    setComment(e.target.value);
+                  }}
+            />
+            <br/>
             <div class="custom-control custom-checkbox">
               <input
                 type="checkbox"

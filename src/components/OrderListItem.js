@@ -1,6 +1,6 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Badge } from "react-bootstrap";
 
 function OrderListItem(props) {
   return (
@@ -9,7 +9,12 @@ function OrderListItem(props) {
         <span>{props.id}</span>
       </Col>
       <Col sm={4}>
-        <span>{props.state}</span>
+        <span>{
+                    props.status == "Completed" ? (
+                        <Badge variant="success">Užbaigta</Badge>
+                    ) : (
+                        <Badge variant="warning">Patvirtinta</Badge>
+                    )}</span>
       </Col>
       <Col sm={4}>
         <span>{props.total} €</span>
