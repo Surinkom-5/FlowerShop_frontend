@@ -1,9 +1,9 @@
-import React, { useState,useEffect } from "react";
+import React, { useState,useEffect, useContext } from "react";
 import styled from "styled-components";
 import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import CartItem from "../CartItem";
-import { Row, Col, Form } from "react-bootstrap";
+import { Row, Col, Form, Alert } from "react-bootstrap";
 import {TextInput,SubmitButton} from "../ui/Form";
 
 import { CartHeader, TableHead } from "../ui/Text";
@@ -18,26 +18,108 @@ import {
 } from "../../services";
 import { useDispatch } from "react-redux";
 
+import {Context} from '../../store/store'
+
+
 
 function CartPage(props) {
   const [rulesAgreementChecked, setRulesAgreementChecked] = useState(false);
-  const [typeOfPayment, setTypeOfPayment] = useState(null);
-  const cart = useSelector((state) => state.appReducer.cart);
   const [addresses, setAddresses] = useState(null);
-  const dispatch = useDispatch();
-  const user = useSelector((state) => state.appReducer.user);
+  const [message, setMessage] = useState(null);
+  const [state, dispatch] = useContext(Context);
 
   const [addressId, setAddressId] = useState(null);
+  const [firstname, setFirstname] = useState(null);
+  const [lastname, setLastname] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [phone, setPhone] = useState(null);
+  const [street, setStreet] = useState(null);
+  const [city, setCity] = useState(null);
+  const [postalCode, setPostalCode] = useState(null);
 
   useEffect(() => {
     loadData();
+    GetCart(dispatch);
   }, []);
 
   const loadData = () => {
-    // get addresses
     GetAddresses(dispatch).then((p) => {
       setAddresses(p);
     });
+  };
+  const cart = state.cart;
+  const user = state.user;
+
+  const checkRules = (e) => {
+    setRulesAgreementChecked(e.target.checked);
+  };
+
+  const createOrder = (e) => {
+    if(!cart.cartItems.length){
+      setMessage("Krepšelis yra tuščias!");
+      return;
+    }
+
+    if(state.user){
+      if(addressId == null){
+        setMessage("Pasirinkite adresą");
+        return;
+      }
+      if(!rulesAgreementChecked){
+        setMessage("Sutikite su taisyklėmis");
+        return;
+      }
+      const data = {
+        addressId: addressId,
+        comment: 'uzsakymas'
+      };
+    }else{
+      if(!firstname){
+        setMessage("Įveskite vardą");
+        return;
+      }
+      if(!lastname){
+        setMessage("Įveskite pavardę");
+        return;
+      }
+      if(!street){
+        setMessage("Įveskite adresą");
+        return;
+      }
+      if(!city){
+        setMessage("Įveskite miestą");
+        return;
+      }
+      if(!postalCode){
+        setMessage("Įveskite pašto kodą");
+        return;
+      }
+      if(!phone){
+        setMessage("Įveskite telefono numerį");
+        return;
+      }
+      if(!email){
+        setMessage("Įveskite el. pašto adresą");
+        return;
+      }
+      if(!rulesAgreementChecked){
+        setMessage("Sutikite su taisyklėmis");
+        return;
+      }
+      const data = {
+        comment: 'uzsakymas',
+        email: email,
+        phoneNumber: phone,
+        firstName: firstname,
+        lastName: lastname,
+        city: city,
+        address: street,
+        postCode: postalCode
+      };
+    }
+
+    e.preventDefault();
+
   };
   return (
     <Container>
@@ -56,15 +138,22 @@ function CartPage(props) {
             <Col xs={2}>
             </Col>
         </Row>
-        {cart ? (cart.cartItems.map((c) => (
-          <CartItem />
-        ))) : null}
+        {cart ? (cart.cartItems.length ? (
+          cart.cartItems.map((c) => (
+            <CartItem id={c.productId} quantity={c.quantity}/>
+          )
+        )) : (
+        <Alert variant="danger">Prekių nėra</Alert>
+
+        )) : 
+        <Alert variant="danger">Prekių nėra</Alert>
+        }
       </div>
       <Row>
         <Col xs={6}>
         <CartHeader num="2">Pristatymo informacija</CartHeader>
         {user ? (
-        <form>
+        <form className="cart-address-container">
             <div key='radio' className="mb-3">
             {addresses ? (addresses.map((c) => (
           <Form.Check 
@@ -83,27 +172,46 @@ function CartPage(props) {
         </form>
         ) : (
           <form className="cart-address-container">
-            <TextInput type="text" placeholder="Vardas" />
+            <TextInput type="text" placeholder="Vardas" 
+            onChange={(e) => {
+              setFirstname(e.target.value);
+            }}/>
             <br/>
-            <TextInput type="text" placeholder="Pavardė" />
+            <TextInput type="text" placeholder="Pavardė" 
+            onChange={(e) => {
+              setLastname(e.target.value);
+            }}/>
             <br/>
-            <TextInput type="text" placeholder="Adresas" />
+            <TextInput type="text" placeholder="Adresas" 
+            onChange={(e) => {
+              setStreet(e.target.value);
+            }}/>
             <br/>
             <Row>
               <Col xs={6}>
-                <TextInput type="text" placeholder="Miestas" />
+                <TextInput type="text" placeholder="Miestas" 
+                onChange={(e) => {
+                  setCity(e.target.value);
+                }}/>
               </Col>
               <Col xs={6}>
-                <TextInput type="text" placeholder="Pašto kodas" />
+                <TextInput type="text" placeholder="Pašto kodas" 
+                onChange={(e) => {
+                  setPostalCode(e.target.value);
+                }}/>
               </Col>
             </Row>
             <br/>
             <Row>
               <Col xs={6}>
-                <TextInput type="text" placeholder="Telefono numeris" />
+                <TextInput type="text" placeholder="Telefono numeris" onChange={(e) => {
+                    setPhone(e.target.value);
+                  }}/>
               </Col>
               <Col xs={6}>
-                <TextInput type="text" placeholder="El.pašto adresas" />
+                <TextInput type="text" placeholder="El.pašto adresas" onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}/>
               </Col>
             </Row>
           </form>
@@ -125,11 +233,15 @@ function CartPage(props) {
           </Row>
           <br/>
           <div class="custom-control custom-checkbox">
-            <input type="checkbox" className="custom-control-input" id="term_check"/>
+            <input type="checkbox" className="custom-control-input" id="term_check" onClick={checkRules}/>
             <label className="custom-control-label" for="term_check">Su paslaugos teikimo sąlygomis ir taisyklėmis bei privatumo politika susipažinau ir sutinku.</label>
           </div>
           <br/>
-          <SubmitButton>Sukurti užsakymą</SubmitButton>
+          {message ? (
+          <Alert variant="danger">{message}</Alert>
+          ) : null}
+
+          <SubmitButton onClick={createOrder}>Sukurti užsakymą</SubmitButton>
 
         </div>
 

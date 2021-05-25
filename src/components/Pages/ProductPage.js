@@ -13,7 +13,6 @@ import { useLocation, useParams } from "react-router";
 
 function ProductPage() {
   const [product, setProduct] = useState({});
-  const [similarProducts, setSimilarProducts] = useState([]);
   const [similarProductsToShow, setSimilarProductsToShow] = useState([]);
   const { id } = useParams();
 
@@ -27,16 +26,12 @@ function ProductPage() {
   }, [id]);
 
   const loadData = () => {
-    // get product
     GetProduct(id).then((p) => {
       setProduct(p);
-      // get similar products
       GetProductsByType(p.productType).then((products) => {
-        setSimilarProducts(products);
         var arr = [...products];
         arr = arr.filter((item) => item.id !== p.id);
-        arr.slice(0, 4);
-        setSimilarProductsToShow(arr);
+        setSimilarProductsToShow(arr.slice(0, 4));
       });
     });
   };

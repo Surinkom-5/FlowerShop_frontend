@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import { Header1 } from "../ui/Text";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ProductCardSmall from "../ProductCardSmall";
@@ -7,12 +7,18 @@ import "../../style.css";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { useSelector } from "react-redux";
-import { GetProductsByType } from "../../services";
+import { GetProductsByType, GetCategories } from "../../services";
 import { useParams } from "react-router";
+import {Context} from '../../store/store'
 
 function CategoryPage() {
-  const categories = useSelector((state) => state.appReducer.categories);
+  const [state, dispatch] = useContext(Context);
+
+  useEffect(() => {
+    GetCategories(dispatch);
+  }, []);
+
+  const categories = state.categories;
   const [category, setCategory] = useState(null);
   const [categoryProducts, setCategoryProducts] = useState(null);
   const { id } = useParams();

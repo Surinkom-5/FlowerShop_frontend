@@ -1,34 +1,21 @@
 import React, { useEffect, useState } from "react";
-import styled from "styled-components";
-import ProductCarousel from "./ProductCarousel";
+
 import {
-  ProductCardTitle,
-  SmallText,
-  ProductCardPrice,
-  Description,
-} from "./ui/Text";
-import {
-  GetCategories,
-  GetProducts,
-  GetCart,
-  GetUser,
-  GetAddresses,
+
   AddToCart
 } from "../services";
-import { GreenButton, CircleButton } from "./ui/Buttons";
 import "./ui/styles.css";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { TextInput, SubmitButton, QuantityInput } from "./ui/Form";
+import {SubmitButton} from "./ui/Form";
 import Form from "react-bootstrap/Form";
-import Button from "react-bootstrap/Button";
 import InputGroup from "react-bootstrap/InputGroup";
-import productImage from "../utils/images/product.png";
 
 function ProductCard(props) {
   const maxDescriptionLength = 400;
 
   const [amount, setAmount] = useState(0);
+  const [successMessage, setSuccessMessage] = useState(false);
   const [amountCanBeIncreased, setAmountCanBeIncreased] = useState(true);
 
   useEffect(() => {
@@ -66,14 +53,18 @@ function ProductCard(props) {
       quantity: amount,
     };
     AddToCart(data);
-    // UpdateAddress(id, newAdress).then(setShowMessage(true));
+    setSuccessMessage(true);
   };
 
   return (
     <div className="product-card-container">
       <Row>
         <Col sm={6}>
-          <img src={props.image} className="img-fluid" />
+          {props.image ? (
+            <img src={props.image} className="img-fluid" />
+          ) : (
+            <img src={ProductCard.defaultProps.image} className="img-fluid" />
+          )}
         </Col>
         <Col sm={6}>
           <h1 className="product-card-title">{props.title}</h1>
@@ -91,6 +82,9 @@ function ProductCard(props) {
           </Row>
           <h2 className="product-price">{props.price} €/vnt</h2>
           <p>{getShortenedDescription()}</p>
+          {successMessage && (
+          <Alert variant="success">Prekė įdėta į krepšelį</Alert>
+          )}
           <Row>
             <Col>
               <InputGroup className="mb-3">
@@ -123,6 +117,7 @@ function ProductCard(props) {
               </InputGroup>
             </Col>
             <Col>
+            
               <SubmitButton onClick={addToCart}>Į krepšelį</SubmitButton>
             </Col>
           </Row>
@@ -138,7 +133,7 @@ ProductCard.defaultProps = {
   amount: NaN,
   price: NaN,
   description: "No description provided...",
-  image: null,
+  image: "https://dummyimage.com/500x500/d6d6d6/fff",
 };
 
 export default ProductCard;

@@ -1,23 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Alert } from "react-bootstrap";
 import { Header1Center } from "../ui/Text";
 import { TextInput, SubmitButton } from "../ui/Form";
 import { useDispatch, useSelector } from "react-redux";
 import { useHistory, useParams } from "react-router";
 import { GetAddresses, UpdateAddress } from "../../services";
 import { SmallGreenText, SmallGreenLink } from "../../components/ui/Text";
+import {Context} from '../../store/store'
+import * as axios from "axios";
+import Cookies from "universal-cookie";
 
 function ChangeAddressPage() {
   const { id } = useParams();
   const history = useHistory();
-  const dispatch = useDispatch();
+  const [state, dispatch] = useContext(Context);
+
   const [address, setAddress] = useState(null);
   const [city, setCity] = useState(null);
   const [street, setStreet] = useState(null);
-  const [code, setCode] = useState(null);
-  const [showMessage, setShowMessage] = useState(false);
+  const [postalCode, setPostalCode] = useState(null);
+  const [message, setMessage] = useState(false);
+  const [successMessage, setSuccessMessage] = useState(false);
 
   useEffect(() => {
     loadData();
@@ -27,12 +32,11 @@ function ChangeAddressPage() {
     if (address) {
       setCity(address.city);
       setStreet(address.street);
-      setCode(address.postalCode);
+      setPostalCode(address.postalCode);
     }
   }, [address]);
 
   const loadData = () => {
-    // get address
     GetAddresses(dispatch).then((p) => {
       setAddress(p.find((c) => c.addressId == id));
     });
@@ -42,14 +46,41 @@ function ChangeAddressPage() {
     history.push("/user");
   };
 
-  const updateAdress = () => {
-    const newAdress = {
+  const updateAddress = (e) => {
+    const data = {
       addressId: id,
       street: street,
       city: city,
-      postalCode: code,
+      postalCode: postalCode,
     };
-    UpdateAddress(id, newAdress).then(setShowMessage(true));
+
+    const cookies = new Cookies();
+    
+    const axiosInstance = axios.create({
+      baseURL: "http://localhost:57678/api",
+    });
+    if (cookies.get("userToken")) {
+      const options = {
+        headers: { Authorization: "Bearer " + cookies.get("userToken") },
+      };
+      axiosInstance.patch(`/Address/${id}`, data, options).then(
+        (response) => {
+          setMessage('');
+          setSuccessMessage('Adresas atnaujintas');
+        },
+        (error) => {
+          if (Array.isArray(Object.values(error.response.data.errors)[0])) {
+            var message = Object.values(error.response.data.errors)[0][0];
+          } else {
+            var message = Object.values(error.response.data.errors)[0];
+          }
+          setMessage(message);
+        }
+      );
+    }
+    e.preventDefault();
+
+    // UpdateAddress(id, newAdress).then(setShowMessage(true));
   };
 
   return (
@@ -57,14 +88,20 @@ function ChangeAddressPage() {
       <Header1Center>Atnaujinti adresą</Header1Center>
       <Row className="justify-content-center">
         <Col xs={6}>
-          <div className="address-container">
+          <form className="address-container">
+          {message && (
+          <Alert variant="danger">{message}</Alert>
+        )}
+        {successMessage && (
+
+          <Alert variant="success">{successMessage}</Alert>
+          )}
             <TextInput
               type="text"
               placeholder="Adresas"
               value={street}
               onChange={(e) => {
                 setStreet(e.target.value);
-                setShowMessage(false);
               }}
             />
             <br />
@@ -76,7 +113,6 @@ function ChangeAddressPage() {
                   value={city}
                   onChange={(e) => {
                     setCity(e.target.value);
-                    setShowMessage(false);
                   }}
                 />
               </Col>
@@ -84,29 +120,20 @@ function ChangeAddressPage() {
                 <TextInput
                   type="text"
                   placeholder="Pašto kodas"
-                  value={code}
+                  value={postalCode}
                   onChange={(e) => {
-                    setCode(e.target.value);
-                    setShowMessage(false);
+                    setPostalCode(e.target.value);
                   }}
                 />
               </Col>
             </Row>
             <br />
-
-            {showMessage ? (
-              <div>
-                <br />
-                <SmallGreenText>Adresas pakeistas</SmallGreenText>
-              </div>
-            ) : null}
-            <br />
             <SmallGreenLink onClick={navigateToUserInfo}>
               Grįžti į paskyra
             </SmallGreenLink>
             <br />
-            <SubmitButton onClick={updateAdress}>Atnaujinti</SubmitButton>
-          </div>
+            <SubmitButton onClick={updateAddress}>Atnaujinti</SubmitButton>
+          </form>
         </Col>
       </Row>
     </Container>

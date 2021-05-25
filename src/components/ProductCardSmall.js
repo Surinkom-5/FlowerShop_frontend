@@ -1,6 +1,5 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import productImage from "../utils/images/product.png";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -24,7 +23,11 @@ function ProductCardSmall(props) {
       className="product-card-small-container"
       onClick={() => navigateToProductPage(props.id)}
     >
+      {props.image ? (
       <img className="img-fluid" src={props.image} />
+      ) : (
+        <img className="img-fluid" src={ProductCardSmall.defaultProps.image} />
+      )}
       <span className="product-card-small-title">{getShortenedTitle()}</span>
       <br />
       <span className="product-card-small-price">{props.price} €/vnt</span>
@@ -35,7 +38,7 @@ function ProductCardSmall(props) {
 ProductCardSmall.defaultProps = {
   id: 0,
   title: "Gėlė",
-  image: productImage,
+  image: 'https://dummyimage.com/200x200/d6d6d6/fff',
   price: 0,
 };
 

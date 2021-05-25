@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 
 import styled from "styled-components";
 import { BigGreenText, SimpleText } from "../ui/Text";
@@ -10,16 +10,15 @@ import AddressCard from "../AddressCard";
 import OrderListItem from "../OrderListItem";
 import { Header1Center } from "../ui/Text";
 import { TableHead } from "../ui/Text";
-import { TextInput, SubmitButton } from "../ui/Form";
+import {  SubmitButton } from "../ui/Form";
 import {
-  GetCategories,
-  GetProducts,
-  GetCart,
-  GetUser,
+
   GetAddresses,
 } from "../../services";
 import { useHistory, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import {Context} from '../../store/store'
+
 
 function UserInfoPage() {
   const history = useHistory();
@@ -27,14 +26,14 @@ function UserInfoPage() {
     history.push(url);
   };
   const [addresses, setAddresses] = useState(null);
-  const dispatch = useDispatch();
+  const [state, dispatch] = useContext(Context);
+  
 
   useEffect(() => {
     loadData();
   }, []);
 
   const loadData = () => {
-    // get addresses
     GetAddresses(dispatch).then((p) => {
       setAddresses(p);
     });
@@ -48,8 +47,8 @@ function UserInfoPage() {
                 <AddressCard
                   id={a.addressId}
                   city={a.city}
-                  code={a.postalCode}
-                  adress={a.street}
+                  postalCode={a.postalCode}
+                  street={a.street}
                 />
             ))
           : null}

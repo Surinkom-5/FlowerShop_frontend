@@ -10,29 +10,20 @@ import { useHistory } from "react-router";
 function AdressCard(props) {
   const history = useHistory();
 
-  function navigateChangeAdress() {
+  function navigateChangeAddress() {
     history.push("/address/" + props.id);
   }
 
   return (
     <Col xs={4}>
       <div className="address-card">
-        <span>
-          {props.name} {props.surname}
-        </span>
+        <span>{props.street}</span>
         <br />
-        <span>
-          {props.adress}, {props.city}
-        </span>
+        <span>{props.city}</span>
         <br />
         <span>{props.code}</span>
         <br />
-        <span>{props.emailAdress}</span>
-        <br />
-        <span>{props.phoneNumber}</span>
-        <br />
-        <br />
-        <SubmitButton onClick={navigateChangeAdress}>Keisti</SubmitButton>
+        <SubmitButton onClick={navigateChangeAddress}>Keisti</SubmitButton>
       </div>
     </Col>
   );
