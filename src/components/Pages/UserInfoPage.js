@@ -1,14 +1,14 @@
 import React, { useEffect, useState, useContext } from "react";
 import { Container } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Alert } from "react-bootstrap";
 import AddressCard from "../AddressCard";
 import OrderListItem from "../OrderListItem";
 import { Header1Center } from "../ui/Text";
 import { TableHead } from "../ui/Text";
 import { SubmitButton } from "../ui/Form";
-import { GetAddresses } from "../../services";
-import { useHistory, useLocation } from "react-router-dom";
+import { GetAddresses, GetOrders, GetUserAuth } from "../../services";
+import { useHistory } from "react-router-dom";
 import { Context } from "../../store";
 
 function UserInfoPage() {
@@ -16,12 +16,18 @@ function UserInfoPage() {
   const navigate = (url) => {
     history.push(url);
   };
+
   const [addresses, setAddresses] = useState(null);
+  const [orders, setOrders] = useState(null);
   const [state, dispatch] = useContext(Context);
 
-  if (state.user == null) {
-    navigate("/");
-  }
+  useEffect(() => {
+    GetUserAuth().then((user) => {
+      if (user == null) {
+        navigate("/");
+      }
+    });
+  }, []);
 
   useEffect(() => {
     loadData();
@@ -31,6 +37,11 @@ function UserInfoPage() {
     GetAddresses(dispatch).then((p) => {
       setAddresses(p);
     });
+    if (state.user) {
+      GetOrders(state.user.userId).then((p) => {
+        setOrders(p);
+      });
+    }
   };
   return (
     <Container>
@@ -54,22 +65,27 @@ function UserInfoPage() {
 
       <div className="orders-container">
         <Row className="table-head-container">
-          <Col sm={3}>
+          <Col sm={4}>
             <TableHead>Užsakymas</TableHead>
           </Col>
-          <Col sm={3}>
-            <TableHead>Data</TableHead>
+          <Col sm={4}>
+            <TableHead>Būsena</TableHead>
           </Col>
-          <Col sm={3}>
+          <Col sm={4}>
             <TableHead>Kiekis</TableHead>
           </Col>
-          <Col sm={3}>
-            <TableHead>Suma</TableHead>
-          </Col>
         </Row>
-        <OrderListItem />
-        <OrderListItem />
-        <OrderListItem />
+        {orders ? 
+          orders.length ? (
+            orders.map((o) => (
+                  <OrderListItem
+                    id={o.id}
+                    total={o.totalPrice}
+                    status={o.orderStatus}
+                  />
+                ))
+          ) : (<Alert variant="danger">Užsakymų nėra</Alert>)
+          : null}
       </div>
     </Container>
   );

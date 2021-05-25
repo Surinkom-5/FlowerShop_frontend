@@ -1,9 +1,11 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { Header1Center } from "../ui/Text";
-import { TextInput, SubmitButton, LoginForm } from "../ui/Form";
+import { TextInput, SubmitButton } from "../ui/Form";
 import * as axios from "axios";
 import Cookies from "universal-cookie";
 import { useHistory } from "react-router-dom";
+import { SmallGreenLink } from "../../components/ui/Text";
+import { GetUserAuth } from "../../services";
 
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
@@ -17,12 +19,19 @@ function LoginPage(props) {
   const navigate = (url) => {
     history.push(url);
   };
+  const navigateToRegister = () => {
+    history.push("/register");
+  };
 
   const [state, dispatch] = useContext(Context);
 
-  if (state.user) {
-    navigate("/user");
-  }
+  useEffect(() => {
+    GetUserAuth().then((user) => {
+      if (user) {
+        navigate("/user");
+      }
+    });
+  }, []);
 
   const [email, setEmail] = useState(null);
   const [password, setPassword] = useState(null);
@@ -60,7 +69,7 @@ function LoginPage(props) {
     <Container>
       <Header1Center>Prisijungti</Header1Center>
       <Row className="justify-content-center">
-        <Col xs={4}>
+        <Col lg={4} xs={16}>
           <form className="login-container">
             {message && <Alert variant="danger">{message}</Alert>}
             <TextInput
@@ -80,6 +89,9 @@ function LoginPage(props) {
                 setPassword(e.target.value);
               }}
             />
+            <SmallGreenLink onClick={navigateToRegister}>
+              Neturite paskyros?
+            </SmallGreenLink>
             <br />
             <SubmitButton onClick={login}>Prisijungti</SubmitButton>
           </form>

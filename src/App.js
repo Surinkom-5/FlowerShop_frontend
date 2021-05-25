@@ -12,6 +12,9 @@ import CreateAddressPage from "./components/Pages/CreateAddressPage";
 import UserInfoPage from "./components/Pages/UserInfoPage";
 import PageNotFound from "./components/Pages/ErrorPages/PageNotFound";
 import OrderConfirmation from "./components/Pages/OrderConfirmation";
+import Admin from "./components/Pages/Admin";
+import AdminOrder from "./components/Pages/AdminOrder";
+import AdminProduct from "./components/Pages/AdminProduct";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 function App() {
 
@@ -30,6 +33,9 @@ function App() {
         <Route path="/user" component={UserInfoPage} />
         <Route path="/category/:id" component={CategoryPage} />
         <Route path="/order-confirmation" component={OrderConfirmation} />
+        <Route path="/admin" component={Admin} />
+        <Route path="/admin-order/:id" component={AdminOrder} />
+        <Route path="/admin-product/:id" component={AdminProduct} />
 
         <Route component={PageNotFound} />
       </Switch>

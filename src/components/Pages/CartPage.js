@@ -8,6 +8,9 @@ import { TextInput, SubmitButton } from "../ui/Form";
 
 import { CartHeader, TableHead } from "../ui/Text";
 import { GetCart, GetAddresses } from "../../services";
+import Cookies from "universal-cookie";
+import * as axios from "axios";
+import { useHistory } from "react-router-dom";
 
 import { Context } from "../../store";
 
@@ -16,6 +19,7 @@ function CartPage(props) {
   const [addresses, setAddresses] = useState(null);
   const [message, setMessage] = useState(null);
   const [state, dispatch] = useContext(Context);
+  const history = useHistory();
 
   const [addressId, setAddressId] = useState(null);
   const [firstname, setFirstname] = useState(null);
@@ -25,6 +29,12 @@ function CartPage(props) {
   const [street, setStreet] = useState(null);
   const [city, setCity] = useState(null);
   const [postalCode, setPostalCode] = useState(null);
+  const [comment, setComment] = useState("");
+
+  const navigate = (url) => {
+    history.push(url);
+  };
+  const cookies = new Cookies();
 
   useEffect(() => {
     loadData();
@@ -58,10 +68,30 @@ function CartPage(props) {
         setMessage("Sutikite su taisyklėmis");
         return;
       }
-      const data = {
+      const orderData = {
         addressId: addressId,
-        comment: "uzsakymas",
+        comment: comment,
       };
+      if (cookies.get("cartId") && cookies.get("userToken")) {
+        const axiosInstance = axios.create({
+          baseURL: "http://localhost:57678/api",
+        });
+        const options = {
+          headers: {
+            cartCookie: cookies.get("cartId"),
+            Authorization: "Bearer " + cookies.get("userToken"),
+          },
+        };
+        axiosInstance.post("/Orders", orderData, options).then(
+          (response) => {
+            cookies.remove("cartId", { path: "/" });
+            navigate("/order-confirmation");
+          },
+          (error) => {
+            setMessage("Klaida pateikiant užsakymą");
+          }
+        );
+      }
     } else {
       if (!firstname) {
         setMessage("Įveskite vardą");
@@ -95,8 +125,8 @@ function CartPage(props) {
         setMessage("Sutikite su taisyklėmis");
         return;
       }
-      const data = {
-        comment: "uzsakymas",
+      const orderData = {
+        comment: comment,
         email: email,
         phoneNumber: phone,
         firstName: firstname,
@@ -105,6 +135,23 @@ function CartPage(props) {
         address: street,
         postCode: postalCode,
       };
+      if (cookies.get("cartId")) {
+        const axiosInstance = axios.create({
+          baseURL: "http://localhost:57678/api",
+        });
+        const options = {
+          headers: { cartCookie: cookies.get("cartId") },
+        };
+        axiosInstance.post("/Orders", orderData, options).then(
+          (response) => {
+            cookies.remove("cartId", { path: "/" });
+            navigate("/order-confirmation");
+          },
+          (error) => {
+            setMessage("Klaida pateikiant užsakymą");
+          }
+        );
+      }
     }
 
     e.preventDefault();
@@ -143,20 +190,23 @@ function CartPage(props) {
           {user ? (
             <form className="cart-address-container">
               <div key="radio" className="mb-3">
-                {addresses
-                  ? addresses.map((c) => (
+                {addresses ? (
+                  addresses.length ? (
+                    addresses.map((c) => (
                       <Form.Check
                         custom
                         name="addressId"
                         type="radio"
                         id={`${c.addressId}`}
-                        label={`${c.city}`}
+                        label={`${c.city}, ${c.street} ${c.postalCode}`}
                         onChange={(e) => {
                           setAddressId(e.target.id);
                         }}
                       />
                     ))
-                  : null}
+                ) : (<Alert variant="danger">Adresų nėra. Sukurkite nors 1 adresą</Alert>
+                )
+                  )  : (<Alert variant="danger">Adresų nėra. Sukurkite nors 1 adresą</Alert>)}
               </div>
             </form>
           ) : (
@@ -168,7 +218,6 @@ function CartPage(props) {
                   setFirstname(e.target.value);
                 }}
               />
-              <br />
               <TextInput
                 type="text"
                 placeholder="Pavardė"
@@ -176,7 +225,6 @@ function CartPage(props) {
                   setLastname(e.target.value);
                 }}
               />
-              <br />
               <TextInput
                 type="text"
                 placeholder="Adresas"
@@ -184,7 +232,6 @@ function CartPage(props) {
                   setStreet(e.target.value);
                 }}
               />
-              <br />
               <Row>
                 <Col lg={6} xs={12}>
                   <TextInput
@@ -205,7 +252,6 @@ function CartPage(props) {
                   />
                 </Col>
               </Row>
-              <br />
               <Row>
                 <Col lg={6} xs={12}>
                   <TextInput
@@ -232,14 +278,25 @@ function CartPage(props) {
         <Col lg={6} xs={12}>
           <CartHeader num="3">Mokėjimas</CartHeader>
           <div className="payment-container">
-            <Row className="payment-info">
+            {/* <Row className="payment-info">
               <Col lg={6} xs={12} className="payment-info-label">
                 Galutinė kaina
               </Col>
               <Col lg={6} xs={12}>
                 {cart ? cart.price : null}€
               </Col>
-            </Row>
+            </Row> */}
+            <br />
+            <Form.Control
+              className="text-input"
+              as="textarea"
+              value={comment}
+              placeholder="Komentaras"
+              rows={3}
+              onChange={(e) => {
+                setComment(e.target.value);
+              }}
+            />
             <br />
             <div class="custom-control custom-checkbox">
               <input

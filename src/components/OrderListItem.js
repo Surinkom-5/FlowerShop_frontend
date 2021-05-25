@@ -1,31 +1,33 @@
 import React from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Row, Col } from "react-bootstrap";
+import { Row, Col, Badge } from "react-bootstrap";
 
 function OrderListItem(props) {
   return (
     <Row className="orders-item">
-      <Col sm={3}>
-        <span>{props.order}</span>
+      <Col sm={4}>
+        <span>{props.id}</span>
       </Col>
-      <Col sm={3}>
-        <span>{props.date}</span>
+      <Col sm={4}>
+        <span>
+          {props.status == "Completed" ? (
+            <Badge variant="success">Užbaigta</Badge>
+          ) : (
+            <Badge variant="warning">Patvirtinta</Badge>
+          )}
+        </span>
       </Col>
-      <Col sm={3}>
-        <span>{props.amount}</span>
-      </Col>
-      <Col sm={3}>
-        <span>{props.price} €</span>
+      <Col sm={4}>
+        <span>{props.total} €</span>
       </Col>
     </Row>
   );
 }
 
 OrderListItem.defaultProps = {
-  order: "Pavadinimas",
-  date: "YYYY-MM-DD",
-  amount: "0",
+  order: 0,
   price: "0",
+  state: "Patvirtintas",
 };
 
 export default OrderListItem;

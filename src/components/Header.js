@@ -41,6 +41,13 @@ function Header() {
           </Col>
           <Col lg={3} xs={12} className="header-info-container">
             <div className="header-info">
+              {user != null && user.userRole == "Owner" ? (
+                <span
+                  className="admin-icon"
+                  onClick={() => navigate("/admin")}
+                ></span>
+              ) : null}
+
               {user == null ? (
                 <span onClick={() => navigate("/login")} className="user-icon">
                   Prisijungti
