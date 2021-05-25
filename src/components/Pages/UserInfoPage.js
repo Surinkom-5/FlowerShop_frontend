@@ -7,7 +7,7 @@ import OrderListItem from "../OrderListItem";
 import { Header1Center } from "../ui/Text";
 import { TableHead } from "../ui/Text";
 import { SubmitButton } from "../ui/Form";
-import { GetAddresses } from "../../services";
+import { GetAddresses, GetOrders } from "../../services";
 import { useHistory, useLocation } from "react-router-dom";
 import { Context } from "../../store";
 
@@ -17,6 +17,7 @@ function UserInfoPage() {
     history.push(url);
   };
   const [addresses, setAddresses] = useState(null);
+  const [orders, setOrders] = useState(null);
   const [state, dispatch] = useContext(Context);
 
   if (state.user == null) {
@@ -31,6 +32,11 @@ function UserInfoPage() {
     GetAddresses(dispatch).then((p) => {
       setAddresses(p);
     });
+    if(state.user){
+      GetOrders(state.user.userId).then((p) => {
+        setOrders(p);
+      });
+    }
   };
   return (
     <Container>
@@ -54,22 +60,21 @@ function UserInfoPage() {
 
       <div className="orders-container">
         <Row className="table-head-container">
-          <Col sm={3}>
+          <Col sm={4}>
             <TableHead>Užsakymas</TableHead>
           </Col>
-          <Col sm={3}>
-            <TableHead>Data</TableHead>
+          <Col sm={4}>
+            <TableHead>Būsena</TableHead>
           </Col>
-          <Col sm={3}>
+          <Col sm={4}>
             <TableHead>Kiekis</TableHead>
           </Col>
-          <Col sm={3}>
-            <TableHead>Suma</TableHead>
-          </Col>
         </Row>
-        <OrderListItem />
-        <OrderListItem />
-        <OrderListItem />
+        {orders
+          ? orders.map((o) => (
+              <OrderListItem id={o.id} total={o.totalPrice} status={o.orderStatus}/>
+            ))
+          : null}
       </div>
     </Container>
   );

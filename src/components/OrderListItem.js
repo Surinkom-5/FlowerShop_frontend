@@ -5,27 +5,23 @@ import { Row, Col } from "react-bootstrap";
 function OrderListItem(props) {
   return (
     <Row className="orders-item">
-      <Col sm={3}>
-        <span>{props.order}</span>
+      <Col sm={4}>
+        <span>{props.id}</span>
       </Col>
-      <Col sm={3}>
-        <span>{props.date}</span>
+      <Col sm={4}>
+        <span>{props.state}</span>
       </Col>
-      <Col sm={3}>
-        <span>{props.amount}</span>
-      </Col>
-      <Col sm={3}>
-        <span>{props.price} €</span>
+      <Col sm={4}>
+        <span>{props.total} €</span>
       </Col>
     </Row>
   );
 }
 
 OrderListItem.defaultProps = {
-  order: "Pavadinimas",
-  date: "YYYY-MM-DD",
-  amount: "0",
+  order: 0,
   price: "0",
+  state: "Patvirtintas"
 };
 
 export default OrderListItem;

@@ -8,6 +8,9 @@ import { TextInput, SubmitButton } from "../ui/Form";
 
 import { CartHeader, TableHead } from "../ui/Text";
 import { GetCart, GetAddresses } from "../../services";
+import Cookies from "universal-cookie";
+import * as axios from "axios";
+import { useHistory } from "react-router-dom";
 
 import { Context } from "../../store";
 
@@ -16,6 +19,8 @@ function CartPage(props) {
   const [addresses, setAddresses] = useState(null);
   const [message, setMessage] = useState(null);
   const [state, dispatch] = useContext(Context);
+  const history = useHistory();
+
 
   const [addressId, setAddressId] = useState(null);
   const [firstname, setFirstname] = useState(null);
@@ -25,6 +30,11 @@ function CartPage(props) {
   const [street, setStreet] = useState(null);
   const [city, setCity] = useState(null);
   const [postalCode, setPostalCode] = useState(null);
+
+  const navigate = (url) => {
+    history.push(url);
+  };
+  const cookies = new Cookies();
 
   useEffect(() => {
     loadData();
@@ -58,10 +68,27 @@ function CartPage(props) {
         setMessage("Sutikite su taisyklėmis");
         return;
       }
-      const data = {
+      const orderData = {
         addressId: addressId,
         comment: "uzsakymas",
       };
+      if (cookies.get("cartId") && cookies.get("userToken")) {
+        const axiosInstance = axios.create({
+          baseURL: "http://localhost:57678/api",
+        });
+        const options = {
+          headers: { cartCookie: cookies.get("cartId"),Authorization: "Bearer " + cookies.get("userToken") },
+        };
+        axiosInstance.post("/Orders", orderData, options).then(
+          (response) => {
+            cookies.remove('cartId', { path: '/' });
+            navigate('/order-confirmation');
+          },
+          (error) => {
+            setMessage("Klaida pateikiant užsakymą");
+          }
+        );
+      }
     } else {
       if (!firstname) {
         setMessage("Įveskite vardą");
@@ -95,7 +122,7 @@ function CartPage(props) {
         setMessage("Sutikite su taisyklėmis");
         return;
       }
-      const data = {
+      const orderData = {
         comment: "uzsakymas",
         email: email,
         phoneNumber: phone,
@@ -105,6 +132,23 @@ function CartPage(props) {
         address: street,
         postCode: postalCode,
       };
+      if (cookies.get("cartId")) {
+        const axiosInstance = axios.create({
+          baseURL: "http://localhost:57678/api",
+        });
+        const options = {
+          headers: { cartCookie: cookies.get("cartId") },
+        };
+        axiosInstance.post("/Orders", orderData, options).then(
+          (response) => {
+            cookies.remove('cartId', { path: '/' });
+            navigate('/order-confirmation');
+          },
+          (error) => {
+            setMessage("Klaida pateikiant užsakymą");
+          }
+        );
+      }
     }
 
     e.preventDefault();
@@ -150,7 +194,7 @@ function CartPage(props) {
                         name="addressId"
                         type="radio"
                         id={`${c.addressId}`}
-                        label={`${c.city}`}
+                        label={`${c.city}, ${c.street} ${c.postalCode}`}
                         onChange={(e) => {
                           setAddressId(e.target.id);
                         }}
@@ -168,7 +212,6 @@ function CartPage(props) {
                   setFirstname(e.target.value);
                 }}
               />
-              <br />
               <TextInput
                 type="text"
                 placeholder="Pavardė"
@@ -176,7 +219,6 @@ function CartPage(props) {
                   setLastname(e.target.value);
                 }}
               />
-              <br />
               <TextInput
                 type="text"
                 placeholder="Adresas"
@@ -184,7 +226,6 @@ function CartPage(props) {
                   setStreet(e.target.value);
                 }}
               />
-              <br />
               <Row>
                 <Col lg={6} xs={12}>
                   <TextInput
@@ -205,7 +246,6 @@ function CartPage(props) {
                   />
                 </Col>
               </Row>
-              <br />
               <Row>
                 <Col lg={6} xs={12}>
                   <TextInput

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useContext } from "react";
 import styled from "styled-components";
 import { Header1 } from "../ui/Text";
 
@@ -8,15 +8,18 @@ import Col from "react-bootstrap/Col";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ProductCard from "../ProductCard";
 import ProductCardSmall from "../ProductCardSmall";
-import { GetProduct, GetProductsByType } from "../../services";
+import { GetProduct, GetProductsByType, GetCart } from "../../services";
 import { useLocation, useParams } from "react-router";
+import { Context } from "../../store";
 
 function ProductPage() {
   const [product, setProduct] = useState({});
   const [similarProductsToShow, setSimilarProductsToShow] = useState([]);
   const { id } = useParams();
+  const [state, dispatch] = useContext(Context);
 
   useEffect(() => {
+    GetCart(dispatch);
     loadData();
   }, []);
 

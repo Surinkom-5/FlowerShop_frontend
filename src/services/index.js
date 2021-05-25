@@ -71,21 +71,47 @@ export const GetUser = async (dispatch) => {
 export const GetCart = async (dispatch) => {
   if (cookies.get("cartId")) {
     try {
-      const options = {
-        headers: { cartCookie: cookies.get("cartId") },
-      };
-      const { data } = await axiosInstance.get(`/ShoppingCart`, options)
+      if(cookies.get("userToken")){
+        const options = {
+          headers: { cartCookie: cookies.get("cartId"),Authorization: "Bearer " + cookies.get("userToken") },
+        };
+        const { data } = await axiosInstance.get(`/ShoppingCart`, options)
+        if(cookies.get("cartId") != data.cartId){
+          cookies.set("cartId", data.cartId, { path: "/" });
+        }
 
-      await dispatch({type: 'SET_CART', data: data});
+
+        await dispatch({type: 'SET_CART', data: data});
+      }else{
+        const options = {
+          headers: { cartCookie: cookies.get("cartId") },
+        };
+        const { data } = await axiosInstance.get(`/ShoppingCart`, options)
+
+        await dispatch({type: 'SET_CART', data: data});
+      }
+      
+      
     } catch {
       console.log("Error while getting Cart!");
     }
   } else {
     try {
-      const { data } = await axiosInstance.get(`/ShoppingCart`)
-      cookies.set("cartId", data.cartId, { path: "/" });
-
-      await dispatch({type: 'SET_CART', data: data});
+      if(cookies.get("userToken")){
+        const options = {
+          headers: {Authorization: "Bearer " + cookies.get("userToken") },
+        };
+        const { data } = await axiosInstance.get(`/ShoppingCart`,options)
+        cookies.set("cartId", data.cartId, { path: "/" });
+  
+        await dispatch({type: 'SET_CART', data: data});
+      }else{
+        const { data } = await axiosInstance.get(`/ShoppingCart`)
+        cookies.set("cartId", data.cartId, { path: "/" });
+  
+        await dispatch({type: 'SET_CART', data: data});
+      }
+      
     } catch {
       console.log("Error while getting Cart!");
     }
@@ -107,6 +133,17 @@ export const GetAddresses = async (dispatch) => {
   }
 };
 
+export const GetOrders = async (id) => {
+  if (cookies.get("userToken")) {
+    try {
+      const { data } = await axiosInstance.get(`/Orders?userId=${id}`);
+      return data;
+    } catch {
+      console.log("Error while getting Orders!");
+    }
+  }
+};
+
 export const UpdateAddress = async (id, newAdress) => {
   const cookie = cookies.get("userToken");
   if (cookie) {
@@ -124,11 +161,20 @@ export const UpdateAddress = async (id, newAdress) => {
 export const AddToCart = async (data) => {
   const cookie = cookies.get("cartId");
   if (cookie) {
+    
     try {
-      const options = {
-        headers: { cartCookie: cookies.get("cartId") },
-      };
-      await axiosInstance.patch(`/ShoppingCart`, data, options);
+      if(cookies.get("userToken")){
+        const options = {
+          headers: { cartCookie: cookies.get("cartId"),Authorization: "Bearer " + cookies.get("userToken") },
+        };
+        await axiosInstance.patch(`/ShoppingCart`, data, options);
+  
+        }else{
+          const options = {
+            headers: { cartCookie: cookies.get("cartId") },
+          };
+          await axiosInstance.patch(`/ShoppingCart`, data, options);
+        }
     } catch {
       console.log("Error while adding To Cart!");
     }
