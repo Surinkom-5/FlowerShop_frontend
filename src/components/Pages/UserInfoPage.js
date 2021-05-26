@@ -10,6 +10,7 @@ import { SubmitButton } from "../ui/Form";
 import { GetAddresses, GetOrders, GetUserAuth } from "../../services";
 import { useHistory } from "react-router-dom";
 import { Context } from "../../store";
+import Cookies from "universal-cookie";
 
 function UserInfoPage() {
   const history = useHistory();
@@ -43,6 +44,12 @@ function UserInfoPage() {
       });
     }
   };
+
+  const logOut = () => {
+    const cookies = new Cookies();
+    cookies.remove('userToken', { path: '/' });
+    navigate('/');
+  };
   return (
     <Container>
       <Header1Center>Adresai</Header1Center>
@@ -72,7 +79,7 @@ function UserInfoPage() {
             <TableHead>Būsena</TableHead>
           </Col>
           <Col sm={4}>
-            <TableHead>Kiekis</TableHead>
+            <TableHead>Suma</TableHead>
           </Col>
         </Row>
         {orders ? 
@@ -87,6 +94,9 @@ function UserInfoPage() {
           ) : (<Alert variant="danger">Užsakymų nėra</Alert>)
           : null}
       </div>
+      <SubmitButton onClick={logOut}>
+        Atsijungti
+      </SubmitButton><br/><br/>
     </Container>
   );
 }

@@ -6,7 +6,8 @@ import AdminOrderListItem from "../AdminOrderListItem";
 import AdminProductListItem from "../AdminProductListItem";
 import { Header1Center } from "../ui/Text";
 import { TableHead } from "../ui/Text";
-import { GetAllOrders, GetUserAuth } from "../../services";
+import { TextInput, SubmitButton } from "../ui/Form";
+import { GetAllOrders, GetUserAuth, GetProducts, GetCategories } from "../../services";
 import { useHistory } from "react-router-dom";
 import { Context } from "../../store";
 
@@ -15,10 +16,19 @@ function Admin() {
   const navigate = (url) => {
     history.push(url);
   };
+
+  const navigateToCreateProduct = () => {
+    history.push('/admin-product-create');
+  };
   const [state, dispatch] = useContext(Context);
 
   const [orders, setOrders] = useState(null);
   const products = state.products;
+
+  useEffect(() => {
+    GetProducts(dispatch);
+    GetCategories(dispatch);
+  }, []);
 
   useEffect(() => {
     GetUserAuth().then((user) => {
@@ -52,7 +62,7 @@ function Admin() {
             <TableHead>Būsena</TableHead>
           </Col>
           <Col sm={3}>
-            <TableHead>Kiekis</TableHead>
+            <TableHead>Suma</TableHead>
           </Col>
           <Col sm={2}></Col>
         </Row>
@@ -89,6 +99,8 @@ function Admin() {
           ? products.map((p) => <AdminProductListItem id={p.id} />)
           : null}
       </div>
+      <SubmitButton onClick={navigateToCreateProduct}>Sukurti naują prekę</SubmitButton><br/><br/>
+
     </Container>
   );
 }
