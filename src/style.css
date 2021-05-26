@@ -5,6 +5,10 @@
   border-color: #8fb56a;
   background-color: #8fb56a;
 }
+select{
+  border-radius: 0!important;
+  margin-bottom: 16px;
+}
 .header-container {
   background: #fff;
 }

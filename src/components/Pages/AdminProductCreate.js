@@ -10,14 +10,13 @@ import { Context } from "../../store";
 import * as axios from "axios";
 import Cookies from "universal-cookie";
 
-function AdminProduct() {
+function AdminProductCreate() {
   const history = useHistory();
   const { id } = useParams();
 
   const navigate = (url) => {
     history.push(url);
   };
-
 
   useEffect(() => {
     GetUserAuth().then((user) => {
@@ -30,43 +29,43 @@ function AdminProduct() {
       }
     });
   }, []);
-  const [product, setProduct] = useState(null);
-  const [quantity, setQuantity] = useState(null);
   const [name, setName] = useState(null);
   const [price, setPrice] = useState(null);
   const [description, setDescription] = useState(null);
-  const [version, setVersion] = useState(null);
+  const [productType, setProductType] = useState("Flower");
+  const [availabilityCount, setAvailabilityCount] = useState(null);
+  
   const [state, dispatch] = useContext(Context);
   const [message, setMessage] = useState(null);
 
-  useEffect(() => {
-    loadData();
-  }, []);
-
-  useEffect(() => {
-    if (product) {
-      setQuantity(product.quantity);
-      setName(product.name);
-      setPrice(product.price);
-      setDescription(product.description);
-      setVersion(product.version);
-    }
-  }, [product]);
-
-  const loadData = () => {
-    GetProduct(id).then((p) => {
-      setProduct(p);
-    });
-  };
-
-  const updateProduct = (e) => {
+  const createProduct = (e) => {
     const data = {
-      quantity: quantity,
+      availabilityCount: availabilityCount,
       description: description,
       name: name,
       price: price,
-      version: version,
+      productType: productType
     };
+    e.preventDefault();
+
+
+    if(!name){
+      setMessage("Įveskite pavadinimą");
+      return;
+    }
+    if(!price){
+      setMessage("Įveskite kainą");
+      return;
+    }
+    if(!availabilityCount){
+      setMessage("Įveskite kiekį");
+      return;
+    }
+    if(!description){
+      setMessage("Įveskite aprašymą");
+      return;
+    }
+
     const axiosInstance = axios.create({
       baseURL: "http://localhost:57678/api",
     });
@@ -76,25 +75,26 @@ function AdminProduct() {
       const options = {
         headers: { Authorization: "Bearer " + cookies.get("userToken") },
       };
-      axiosInstance.patch(`/Products/${id}`, data, options).then(
+      axiosInstance.post(`/Products`, data, options).then(
         (response) => {
           navigate('/admin')
         },
         (error) => {
-          if(error.response.status == 409){
-            setMessage("Prekė jau buvo pakeista!");
-          }else{
-            setMessage("Nepavyko atnaujinti prekės!");
+          if (Array.isArray(Object.values(error.response.data.errors)[0])) {
+            var message = Object.values(error.response.data.errors)[0][0];
+          } else {
+            var message = Object.values(error.response.data.errors)[0];
           }
+  
+          setMessage(message);
         }
       );
     }
 
-    e.preventDefault();
   };
   return (
     <Container>
-      <Header1Center>Atnaujinti prekę</Header1Center>
+      <Header1Center>Sukurti naują prekę</Header1Center>
       <Row className="justify-content-center">
         <Col lg={6} xs={12}>
           <form className="address-container">
@@ -107,6 +107,13 @@ function AdminProduct() {
                 setName(e.target.value);
               }}
             />
+            <Form.Control as="select" onChange={(e) => {
+                setProductType(e.target.value);
+              }}>
+              <option value="Flower">Flower</option>
+              <option value="Bouquet">Bouquet</option>
+              <option value="PotterPlant">PotterPlant</option>
+            </Form.Control>
             <TextInput
               type="text"
               placeholder="Kaina"
@@ -118,9 +125,9 @@ function AdminProduct() {
             <TextInput
               type="text"
               placeholder="Kiekis"
-              value={quantity}
+              value={availabilityCount}
               onChange={(e) => {
-                setQuantity(e.target.value);
+                setAvailabilityCount(e.target.value);
               }}
             />
             <Form.Control
@@ -133,7 +140,7 @@ function AdminProduct() {
               }}
             />
             <br />
-            <SubmitButton onClick={updateProduct}>Atnaujinti</SubmitButton>
+            <SubmitButton onClick={createProduct}>Sukurti</SubmitButton>
           </form>
         </Col>
       </Row>
@@ -141,4 +148,4 @@ function AdminProduct() {
   );
 }
 
-export default AdminProduct;
+export default AdminProductCreate;
