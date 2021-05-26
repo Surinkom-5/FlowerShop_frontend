@@ -278,14 +278,14 @@ function CartPage(props) {
         <Col lg={6} xs={12}>
           <CartHeader num="3">Mokėjimas</CartHeader>
           <div className="payment-container">
-            {/* <Row className="payment-info">
+            <Row className="payment-info">
               <Col lg={6} xs={12} className="payment-info-label">
                 Galutinė kaina
               </Col>
               <Col lg={6} xs={12}>
                 {cart ? cart.price : null}€
               </Col>
-            </Row> */}
+            </Row>
             <br />
             <Form.Control
               className="text-input"
