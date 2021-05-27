@@ -1,23 +1,40 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
-import { AddToCart } from "../services";
+import { AddToCart, GetCart, RemoveFromCart } from "../services";
 import "./ui/styles.css";
 import { Row, Col, Alert } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { SubmitButton } from "./ui/Form";
 import Form from "react-bootstrap/Form";
 import InputGroup from "react-bootstrap/InputGroup";
+import { Context } from "../store";
 
 function ProductCard(props) {
   const maxDescriptionLength = 400;
 
+  const [state, dispatch] = useContext(Context);
   const [amount, setAmount] = useState(1);
   const [successMessage, setSuccessMessage] = useState(false);
   const [amountCanBeIncreased, setAmountCanBeIncreased] = useState(true);
+  const cart = state.cart;
 
   useEffect(() => {
-    setAmount(1);
+    GetCart(dispatch);
+  }, []);
+
+  useEffect(() => {
+    setAmount(0);
     setSuccessMessage(false);
+    if (cart && cart.cartItems.find((c) => c.productId == props.code)) {
+      setSuccessMessage(true);
+      const amountInCart = cart.cartItems.find(
+        (c) => c.productId == props.code
+      ).quantity;
+      setAmount(amountInCart);
+      if (amountInCart == props.amount) {
+        setAmountCanBeIncreased(false);
+      }
+    }
   }, [props.amount]);
 
   const increaseAmount = () => {
@@ -51,7 +68,14 @@ function ProductCard(props) {
       productId: props.code,
       quantity: amount,
     };
-    AddToCart(data);
+    if (cart.cartItems.find((c) => c.productId == props.code)) {
+      RemoveFromCart(props.code).then(() => {
+        AddToCart(data).then(GetCart(dispatch));
+      });
+      setSuccessMessage(true);
+      return;
+    }
+    AddToCart(data).then(GetCart(dispatch));
     setSuccessMessage(true);
   };
 
@@ -116,7 +140,11 @@ function ProductCard(props) {
               </InputGroup>
             </Col>
             <Col xs={12} lg={6}>
-              <SubmitButton onClick={addToCart}>Į krepšelį</SubmitButton>
+              <SubmitButton
+                onClick={props.amount != 0 && amount != 0 ? addToCart : null}
+              >
+                Į krepšelį
+              </SubmitButton>
             </Col>
           </Row>
         </Col>
