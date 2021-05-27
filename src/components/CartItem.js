@@ -1,14 +1,18 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
-import { GetProduct, RemoveFromCart } from "../services";
+import { GetCart, GetProduct, RemoveFromCart } from "../services";
 
 import { faMinusCircle } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
+import { Context } from "../store";
+
 function CartItem(props) {
+  const [state, dispatch] = useContext(Context);
   const [product, setProduct] = useState({});
   const [show, setShow] = useState(true);
+  const cart = state.cart;
 
   useEffect(() => {
     GetProduct(props.id).then((p) => {
@@ -16,9 +20,15 @@ function CartItem(props) {
     });
   }, []);
 
+  useEffect(() => {
+    GetProduct(props.id).then((p) => {
+      setProduct(p);
+    });
+  }, [cart]);
+
   const removeProduct = (e) => {
-    RemoveFromCart(props.id).then((p) => {
-      setShow(false);
+    RemoveFromCart(props.id).then(() => {
+      GetCart(dispatch);
     });
     e.preventDefault();
   };
